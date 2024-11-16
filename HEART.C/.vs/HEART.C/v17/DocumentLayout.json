@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "E:\\\u7EC3\\HEART.C\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{E2A7EB17-DCF6-416F-91A3-964D801F845B}|HEART.C\\HEART.C.vcxproj|E:\\\u7EC3\\HEART.C\\HEART.C\\FileName.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{E2A7EB17-DCF6-416F-91A3-964D801F845B}|HEART.C\\HEART.C.vcxproj|solutionrelative:HEART.C\\FileName.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "FileName.c",
+              "DocumentMoniker": "E:\\\u7EC3\\HEART.C\\HEART.C\\FileName.c",
+              "RelativeDocumentMoniker": "HEART.C\\FileName.c",
+              "ToolTip": "E:\\\u7EC3\\HEART.C\\HEART.C\\FileName.c",
+              "RelativeToolTip": "HEART.C\\FileName.c",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2024-09-24T01:37:11.851Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

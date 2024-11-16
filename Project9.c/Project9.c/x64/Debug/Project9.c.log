@@ -1,0 +1,2 @@
+﻿  FileName.c
+D:\vs1\VC\Tools\MSVC\14.40.33807\include\yvals_core.h(23,1): error C1189: #error:  error STL1003: Unexpected compiler, expected C++ compiler.
