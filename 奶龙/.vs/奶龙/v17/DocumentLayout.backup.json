@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "E:\\\u4ED3\u5E93\\Make-grsat-efforts\\\u5976\u9F99\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{30938D41-0270-472C-B23C-F18647DA2C6C}|\u5976\u9F99\\\u5976\u9F99.vcxproj|E:\\\u4ED3\u5E93\\Make-grsat-efforts\\\u5976\u9F99\\\u5976\u9F99\\add.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{30938D41-0270-472C-B23C-F18647DA2C6C}|\u5976\u9F99\\\u5976\u9F99.vcxproj|solutionrelative:\u5976\u9F99\\add.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "add.c",
+              "DocumentMoniker": "E:\\\u4ED3\u5E93\\Make-grsat-efforts\\\u5976\u9F99\\\u5976\u9F99\\add.c",
+              "RelativeDocumentMoniker": "\u5976\u9F99\\add.c",
+              "ToolTip": "E:\\\u4ED3\u5E93\\Make-grsat-efforts\\\u5976\u9F99\\\u5976\u9F99\\add.c",
+              "RelativeToolTip": "\u5976\u9F99\\add.c",
+              "ViewState": "AgIAAC0AAAAAAAAAAAAAADgAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2024-11-15T14:15:03.045Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
