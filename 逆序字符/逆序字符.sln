@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35327.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "逆序字符", "逆序字符\逆序字符.vcxproj", "{643E6544-816B-445D-944F-0F4319849679}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{643E6544-816B-445D-944F-0F4319849679}.Debug|x64.ActiveCfg = Debug|x64
+		{643E6544-816B-445D-944F-0F4319849679}.Debug|x64.Build.0 = Debug|x64
+		{643E6544-816B-445D-944F-0F4319849679}.Debug|x86.ActiveCfg = Debug|Win32
+		{643E6544-816B-445D-944F-0F4319849679}.Debug|x86.Build.0 = Debug|Win32
+		{643E6544-816B-445D-944F-0F4319849679}.Release|x64.ActiveCfg = Release|x64
+		{643E6544-816B-445D-944F-0F4319849679}.Release|x64.Build.0 = Release|x64
+		{643E6544-816B-445D-944F-0F4319849679}.Release|x86.ActiveCfg = Release|Win32
+		{643E6544-816B-445D-944F-0F4319849679}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EA8FDFD4-585D-48D5-A4E3-C4FCAA8A4F3E}
+	EndGlobalSection
+EndGlobal
