@@ -1,0 +1,4 @@
+﻿  test.c
+E:\练\修剪灌木\修剪灌木\test.c(18,4): warning C4013: “printf”未定义；假设外部返回 int
+E:\练\修剪灌木\修剪灌木\test.c(13,9): warning C4101: “k”: 未引用的局部变量
+  修剪灌木.vcxproj -> E:\练\修剪灌木\x64\Debug\修剪灌木.exe
