@@ -1,0 +1,3 @@
+﻿  rest.c
+E:\练\数字诗意\数字诗意\rest.c(29,9): warning C4477: “scanf”: 格式字符串“%d”需要类型“int *”的参数，但可变参数 1 拥有了类型“int”
+  数字诗意.vcxproj -> E:\练\数字诗意\x64\Debug\数字诗意.exe
