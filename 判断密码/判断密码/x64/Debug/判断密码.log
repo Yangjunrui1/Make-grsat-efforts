@@ -1,0 +1,3 @@
+﻿  tesr.c
+E:\练\判断密码\判断密码\tesr.c(14,13): warning C4267: “初始化”: 从“size_t”转换到“int”，可能丢失数据
+  判断密码.vcxproj -> E:\练\判断密码\x64\Debug\判断密码.exe
