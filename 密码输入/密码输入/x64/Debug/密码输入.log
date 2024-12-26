@@ -1,0 +1,4 @@
+﻿  test.c
+E:\练\密码输入\密码输入\test.c(9,3): warning C4013: “gets”未定义；假设外部返回 int
+E:\练\密码输入\密码输入\test.c(10,7): warning C4013: “strcmp”未定义；假设外部返回 int
+  密码输入.vcxproj -> E:\练\密码输入\x64\Debug\密码输入.exe
