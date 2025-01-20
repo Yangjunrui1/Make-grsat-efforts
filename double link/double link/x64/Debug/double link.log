@@ -1,0 +1,4 @@
+﻿  test.c
+E:\练\double link\double link\test.c(61,10): warning C4013: “find”未定义；假设外部返回 int
+E:\练\double link\double link\test.c(49,6): warning C4101: “element”: 未引用的局部变量
+  double link.vcxproj -> E:\练\double link\x64\Debug\double link.exe
