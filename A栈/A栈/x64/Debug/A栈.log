@@ -1,0 +1,4 @@
+﻿  test.c
+E:\练\A栈\A栈\test.c(65,3): warning C4033: “creatList”必须返回值
+E:\练\A栈\A栈\test.c(70,1): warning C4715: “creatList”: 不是所有的控件路径都返回值
+  A栈.vcxproj -> E:\练\A栈\x64\Debug\A栈.exe
