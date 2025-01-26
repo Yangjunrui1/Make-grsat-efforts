@@ -3,6 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Identity.iml" filepath="$PROJECT_DIR$/Identity.iml" />
+      <module fileurl="file://$PROJECT_DIR$/arr/arr.iml" filepath="$PROJECT_DIR$/arr/arr.iml" />
+      <module fileurl="file://$PROJECT_DIR$/charge/charge.iml" filepath="$PROJECT_DIR$/charge/charge.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rand/rand.iml" filepath="$PROJECT_DIR$/rand/rand.iml" />
+      <module fileurl="file://$PROJECT_DIR$/swichcase/swichcase.iml" filepath="$PROJECT_DIR$/swichcase/swichcase.iml" />
     </modules>
   </component>
 </project>
