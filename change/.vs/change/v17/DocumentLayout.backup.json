@@ -1,0 +1,41 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "E:\\\u7EC3\\change\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{4E6D32F2-6323-4CF6-9326-96012E5B9F5C}|change\\change.vcxproj|E:\\\u7EC3\\change\\change\\test.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{4E6D32F2-6323-4CF6-9326-96012E5B9F5C}|change\\change.vcxproj|solutionrelative:change\\test.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "test.cpp",
+              "DocumentMoniker": "E:\\\u7EC3\\change\\change\\test.cpp",
+              "RelativeDocumentMoniker": "change\\test.cpp",
+              "ToolTip": "E:\\\u7EC3\\change\\change\\test.cpp*",
+              "RelativeToolTip": "change\\test.cpp*",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAABIAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-02-05T09:37:40.956Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
