@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35327.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bieset位运算", "bieset位运算\bieset位运算.vcxproj", "{D285232E-177B-40B5-B554-2A93C20DDCC0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D285232E-177B-40B5-B554-2A93C20DDCC0}.Debug|x64.ActiveCfg = Debug|x64
+		{D285232E-177B-40B5-B554-2A93C20DDCC0}.Debug|x64.Build.0 = Debug|x64
+		{D285232E-177B-40B5-B554-2A93C20DDCC0}.Debug|x86.ActiveCfg = Debug|Win32
+		{D285232E-177B-40B5-B554-2A93C20DDCC0}.Debug|x86.Build.0 = Debug|Win32
+		{D285232E-177B-40B5-B554-2A93C20DDCC0}.Release|x64.ActiveCfg = Release|x64
+		{D285232E-177B-40B5-B554-2A93C20DDCC0}.Release|x64.Build.0 = Release|x64
+		{D285232E-177B-40B5-B554-2A93C20DDCC0}.Release|x86.ActiveCfg = Release|Win32
+		{D285232E-177B-40B5-B554-2A93C20DDCC0}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8ACAD4F1-90BA-403C-8625-7BE948AB9AA2}
+	EndGlobalSection
+EndGlobal
