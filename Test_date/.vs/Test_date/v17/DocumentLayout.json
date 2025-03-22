@@ -1,0 +1,45 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "E:\\\u7EC3\\Test_date\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{95B18FD9-0EE4-495B-B9EB-6DAEDC0EE6B6}|Test_date\\Test_date.vcxproj|E:\\\u7EC3\\Test_date\\Test_date\\test.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{95B18FD9-0EE4-495B-B9EB-6DAEDC0EE6B6}|Test_date\\Test_date.vcxproj|solutionrelative:Test_date\\test.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "test.c",
+              "DocumentMoniker": "E:\\\u7EC3\\Test_date\\Test_date\\test.c",
+              "RelativeDocumentMoniker": "Test_date\\test.c",
+              "ToolTip": "E:\\\u7EC3\\Test_date\\Test_date\\test.c*",
+              "RelativeToolTip": "Test_date\\test.c*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2025-03-22T06:20:43.874Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
