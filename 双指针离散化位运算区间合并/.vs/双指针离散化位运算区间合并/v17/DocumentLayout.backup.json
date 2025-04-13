@@ -1,0 +1,45 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "E:\\c\u002B\u002B\u6307\u5357\\\u7B97\u6CD5\\\u53CC\u6307\u9488\u79BB\u6563\u5316\u4F4D\u8FD0\u7B97\u533A\u95F4\u5408\u5E76\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{9B9A21AB-A926-4039-B3F4-C68BEC0EF66D}|\u53CC\u6307\u9488\u79BB\u6563\u5316\u4F4D\u8FD0\u7B97\u533A\u95F4\u5408\u5E76\\\u53CC\u6307\u9488\u79BB\u6563\u5316\u4F4D\u8FD0\u7B97\u533A\u95F4\u5408\u5E76.vcxproj|E:\\c\u002B\u002B\u6307\u5357\\\u7B97\u6CD5\\\u53CC\u6307\u9488\u79BB\u6563\u5316\u4F4D\u8FD0\u7B97\u533A\u95F4\u5408\u5E76\\\u53CC\u6307\u9488\u79BB\u6563\u5316\u4F4D\u8FD0\u7B97\u533A\u95F4\u5408\u5E76\\test.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{9B9A21AB-A926-4039-B3F4-C68BEC0EF66D}|\u53CC\u6307\u9488\u79BB\u6563\u5316\u4F4D\u8FD0\u7B97\u533A\u95F4\u5408\u5E76\\\u53CC\u6307\u9488\u79BB\u6563\u5316\u4F4D\u8FD0\u7B97\u533A\u95F4\u5408\u5E76.vcxproj|solutionrelative:\u53CC\u6307\u9488\u79BB\u6563\u5316\u4F4D\u8FD0\u7B97\u533A\u95F4\u5408\u5E76\\test.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "test.cpp",
+              "DocumentMoniker": "E:\\c\u002B\u002B\u6307\u5357\\\u7B97\u6CD5\\\u53CC\u6307\u9488\u79BB\u6563\u5316\u4F4D\u8FD0\u7B97\u533A\u95F4\u5408\u5E76\\\u53CC\u6307\u9488\u79BB\u6563\u5316\u4F4D\u8FD0\u7B97\u533A\u95F4\u5408\u5E76\\test.cpp",
+              "RelativeDocumentMoniker": "\u53CC\u6307\u9488\u79BB\u6563\u5316\u4F4D\u8FD0\u7B97\u533A\u95F4\u5408\u5E76\\test.cpp",
+              "ToolTip": "E:\\c\u002B\u002B\u6307\u5357\\\u7B97\u6CD5\\\u53CC\u6307\u9488\u79BB\u6563\u5316\u4F4D\u8FD0\u7B97\u533A\u95F4\u5408\u5E76\\\u53CC\u6307\u9488\u79BB\u6563\u5316\u4F4D\u8FD0\u7B97\u533A\u95F4\u5408\u5E76\\test.cpp",
+              "RelativeToolTip": "\u53CC\u6307\u9488\u79BB\u6563\u5316\u4F4D\u8FD0\u7B97\u533A\u95F4\u5408\u5E76\\test.cpp",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAAACwAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-04-10T11:07:58.385Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
