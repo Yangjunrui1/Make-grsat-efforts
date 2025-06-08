@@ -1,0 +1,34 @@
+﻿  contact.c
+E:\练\contact\contact\contact.c(18,10): warning C4473: “scanf_s”: 没有为格式字符串传递足够的参数
+      E:\练\contact\contact\contact.c(18,10):
+      占位符和其参数预计 2 可变参数，但提供的却是 1 参数
+      E:\练\contact\contact\contact.c(18,10):
+      缺失的可变参数 2 为格式字符串“%s”所需
+      E:\练\contact\contact\contact.c(18,10):
+      此参数用作缓冲区大小
+  
+E:\练\contact\contact\contact.c(20,10): warning C4473: “scanf_s”: 没有为格式字符串传递足够的参数
+      E:\练\contact\contact\contact.c(20,10):
+      占位符和其参数预计 2 可变参数，但提供的却是 1 参数
+      E:\练\contact\contact\contact.c(20,10):
+      缺失的可变参数 2 为格式字符串“%s”所需
+      E:\练\contact\contact\contact.c(20,10):
+      此参数用作缓冲区大小
+  
+E:\练\contact\contact\contact.c(24,10): warning C4473: “scanf_s”: 没有为格式字符串传递足够的参数
+      E:\练\contact\contact\contact.c(24,10):
+      占位符和其参数预计 2 可变参数，但提供的却是 1 参数
+      E:\练\contact\contact\contact.c(24,10):
+      缺失的可变参数 2 为格式字符串“%s”所需
+      E:\练\contact\contact\contact.c(24,10):
+      此参数用作缓冲区大小
+  
+E:\练\contact\contact\contact.c(26,10): warning C4473: “scanf_s”: 没有为格式字符串传递足够的参数
+      E:\练\contact\contact\contact.c(26,10):
+      占位符和其参数预计 2 可变参数，但提供的却是 1 参数
+      E:\练\contact\contact\contact.c(26,10):
+      缺失的可变参数 2 为格式字符串“%s”所需
+      E:\练\contact\contact\contact.c(26,10):
+      此参数用作缓冲区大小
+  
+  contact.vcxproj -> E:\练\contact\contact\x64\Debug\contact.exe
