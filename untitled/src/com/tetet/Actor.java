@@ -11,7 +11,13 @@ public class Actor {
         this.name = name;
         this.age = age;
     }
-
+    @Override
+    public String toString() {
+        return "Actor{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                '}';
+    }
 
     public String getName() {
         return name;
