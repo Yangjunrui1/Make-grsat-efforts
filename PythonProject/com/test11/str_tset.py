@@ -13,4 +13,8 @@ my_sr_list = my_str.split(" ")
 print(my_sr_list)
 # 不传入参数，删除 前后的空格
 mefds = my_str.strip("23")
+<<<<<<< HEAD
 print(mefds)
+=======
+print(mefds)
+>>>>>>> f44b09ab1a264456e3bfd632d8469a43c8610d87
