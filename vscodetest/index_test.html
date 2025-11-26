@@ -4,14 +4,14 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	</meta>
 	<title>【新思想引领新征程】</title>
-	<!--    <style>-->
-	<!--        span{-->
-	<!--            color: red;-->
-	<!--        }-->
-	<!--    </style>-->
 	<style>
+		/* 设置页面居中 */
+		body {
+			width: 80%;
+			margin: 0 auto;
+		}
+		
 		/* .cls {
 			color: rgb(48, 48, 51);
 		} */
@@ -23,11 +23,20 @@
 			text-decoration: none;
 			color: rgba(136, 136, 210, 0.466);
 		}
-		
+		/*设置行高*/
+		p{
+			line-height: 2em;
+		}
+		/*设置首行缩进*/
+		p{
+			text-indent: 2em;
+		}
+		video {
+   			 display: block;
+   	 		margin: 0 auto;
+		}
 	</style>
 	<link rel="stylesheet" href="css1/test.css">
-
-
 </head>
 
 <body>
@@ -35,10 +44,24 @@
 	<h1>【新思想引领新征程】推进长江十年禁止渔，谱写长江大保护篇章</h1>
 	<!--    定义一个超链接，里面展示央视网 -->
 	<a href="https://www.cctv.com">央视网</a>
-	<span <span class="cls" id = "time">2024年5月1日</span>
+	<span class="cls" id="time">2024年5月1日</span>
+	<br><br>
 
 	<!-- 定义正文部分 -->
-	<!-- 定义一个视频，引入\video\教程.mp4 -->
-	<video src="video/教程.mp4" controls width="600px" height="400px"></video>
+	<!-- 定义一个视频设置合适的尺寸
+	，引入E:\代码仓库\Make-grsat-efforts\vscodetest\video\11月26日(1).mp4 -->
+	<video width="800" controls>
+		<source src="video/11月26日(1).mp4" type="video/mp4">
+	</video>
+	<!-- 调整段落格式，并添加段落内容 -->
+	 
+	<p>
+		<b>央视网消息</b>（）（记者李晓东、张伟）"长江十年禁渔"行动自2021年1月1日
+	实施以来，取得了显著成效。近日，记者走访了长江流域的多个渔业重镇，采访了
+	相关专家和渔民，深入了解禁渔行动的进展和影响。作为共享的生态资源，长江水域的渔业资源在过去几十年中因过度捕捞而面临
+	严重衰退。为了保护这一重要生态系统，国家决定实施为期十年的禁渔政策，
+	旨在恢复鱼类资源，改善水质，促进生态平衡。
+	</p>
 </body>
+	
 </html>
