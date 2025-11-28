@@ -1,0 +1,25 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+        <head>
+                <meta charset="utf-8">
+                <title>表单</title>
+        </head>
+        <body>
+                 <!-- form表单 
+                  get方式：通过URL地址栏传递数据，数据量小，安全性低，效率高
+                  post方式：通过URL地址栏传递数据，数据量大，安全性高，效率低
+                    action属性：表单提交到的地址
+                    method属性：表单提交方式
+                    enctype属性：表单提交编码类型
+                    target属性：表单提交到的目标窗口
+                    表单想要提交数据，必须添加submit按钮
+                    name属性：表单提交数据时，提交数据所对应的名称-->
+                <form action="/save"method="post">
+                    姓名：<input type ="text"name ="username">
+                    年龄：<input type ="text"name ="age">
+                    <input type="submit"value="提交">
+                </form>
+        </body>
+        </head>
+</html>
