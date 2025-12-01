@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>员工管理 - 表格样式示例</title>
+<style>
+  :root{
+    --bg: #f5f7f9;
+    --muted:#f0f0f0;
+    --accent:#e9e9e9;
+    --border:#e1e1e1;
+    --text:#333;
+    --table-head:#fafafa;
+    --action-bg:#fff;
+  }
+  html,body{
+    height:100%;
+    margin:0;
+    font-family: "Segoe UI", Roboto, "PingFang SC", "Microsoft Yahei", Arial;
+    background: #000; /* 模拟截图黑边 */
+    color:var(--text);
+  }
+  .frame {
+    width: 1100px;
+    margin: 18px auto;
+    background: white;
+    box-shadow: 0 0 0 6px #000000; /* 黑边模拟 */
+  }
+
+  /* 页面容器 */
+  .container{
+    padding: 18px 22px;
+    background: #fff;
+    box-sizing: border-box;
+  }
+
+  /* 筛选行 */
+  .filters{
+    display:flex;
+    gap:10px;
+    align-items:center;
+    margin-bottom:14px;
+  }
+  .filters label{
+    width:36px;
+    font-size:14px;
+  }
+  .filters input[type="text"], .filters select{
+    height:34px;
+    padding:6px 10px;
+    border:1px solid var(--border);
+    border-radius:3px;
+    background:var(--action-bg);
+  }
+  .filters .spacer{flex:1;}
+
+  .btn{
+    height:34px;
+    padding:0 12px;
+    border:1px solid var(--border);
+    background:linear-gradient(180deg,#fff,#f7f7f7);
+    border-radius:4px;
+    cursor:pointer;
+    font-size:13px;
+  }
+  .btn.secondary{background:var(--muted);}
+  .btn:active{transform:translateY(1px);}
+
+  /* 表格 */
+  .table-wrap{
+    border:1px solid var(--border);
+    border-radius:2px;
+    overflow:hidden;
+  }
+  table{
+    width:100%;
+    border-collapse:collapse;
+    table-layout:fixed;
+    font-size:14px;
+  }
+  thead th{
+    background:var(--table-head);
+    text-align:left;
+    padding:12px 10px;
+    border-bottom:1px solid var(--border);
+    font-weight:700;
+  }
+  tbody td{
+    padding:14px 10px;
+    border-bottom:1px solid var(--border);
+    vertical-align:middle;
+    text-overflow:ellipsis;
+    overflow:hidden;
+    white-space:nowrap;
+  }
+  tbody tr:nth-child(odd){background:#fff;}
+  tbody tr:nth-child(even){background:#fbfbfb;}
+
+  /* 列宽控制（按截图调整） */
+  th.col-name, td.col-name{width:13%;}
+  th.col-gender, td.col-gender{width:7%;}
+  th.col-avatar, td.col-avatar{width:6%; text-align:center;}
+  th.col-pos, td.col-pos{width:14%;}
+  th.col-entry, td.col-entry{width:12%;}
+  th.col-last, td.col-last{width:18%;}
+  th.col-op, td.col-op{width:12%; text-align:center;}
+
+  /* 头像样式 */
+  .avatar{
+    width:28px;
+    height:28px;
+    border-radius:50%;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    border:1px solid var(--border);
+    font-size:16px;
+    background:#fff;
+  }
+
+  /* 操作按钮 */
+  .ops{
+    display:flex;
+    gap:8px;
+    justify-content:center;
+  }
+  .ops button{
+    padding:4px 8px;
+    border:1px solid #cfcfcf;
+    background:#f6f6f6;
+    border-radius:4px;
+    font-size:13px;
+    cursor:pointer;
+  }
+
+  /* 页脚 */
+  footer{
+    margin-top:14px;
+    background:#8f8f8f;
+    color:#fff;
+    text-align:center;
+    padding:18px 10px;
+    font-size:13px;
+  }
+
+  /* 响应小调整 */
+  @media (max-width:1180px){
+    .frame{width:95%;}
+  }
+</style>
+</head>
+<body>
+  <div class="frame" role="main" aria-label="员工管理示例">
+    <div class="container">
+      <!-- 筛选区域 -->
+      <div class="filters" aria-hidden="false">
+        <label for="q-name">姓名：</label>
+        <input id="q-name" type="text" placeholder="请输入姓名" />
+
+        <label for="q-sex">性别：</label>
+        <select id="q-sex">
+          <option value="">全部</option>
+          <option>男</option>
+          <option>女</option>
+        </select>
+
+        <label for="q-pos">职位：</label>
+        <select id="q-pos">
+          <option value="">全部</option>
+          <option>讲师</option>
+          <option>咨询师</option>
+          <option>班主任</option>
+          <option>教研主管</option>
+        </select>
+
+        <div class="spacer"></div>
+        <button class="btn" id="searchBtn">查询</button>
+        <button class="btn secondary" id="clearBtn">清空</button>
+      </div>
+
+      <!-- 数据表格 -->
+      <div class="table-wrap" role="region" aria-label="员工列表">
+        <table>
+          <thead>
+            <tr>
+              <th class="col-name">姓名</th>
+              <th class="col-gender">性别</th>
+              <th class="col-avatar">头像</th>
+              <th class="col-pos">职位</th>
+              <th class="col-entry">入职日期</th>
+              <th class="col-last">最后操作时间</th>
+              <th class="col-op">操作</th>
+            </tr>
+          </thead>
+          <tbody id="tbody">
+            <!-- 示例数据行（可通过 JS 动态渲染） -->
+          </tbody>
+        </table>
+      </div>
+
+      <footer>
+        江苏传智播客教育科技股份有限公司<br>
+        版权所有 Copyright 2006-2024 All Rights Reserved
+      </footer>
+    </div>
+  </div>
+
+<script>
+  // 示例数据（可替换为真实数据）
+  const data = [
+    {name:'令狐冲', sex:'男', avatar:'🧑', pos:'讲师', entry:'2021-06-15', last:'2024-09-16 15:30'},
+    {name:'任盈盈', sex:'女', avatar:'👩', pos:'咨询师', entry:'2021-07-20', last:'2024-09-17 09:00'},
+    {name:'向问天', sex:'男', avatar:'🧑', pos:'班主任', entry:'2021-05-01', last:'2024-09-15 17:45'},
+    {name:'任我行', sex:'男', avatar:'🧑', pos:'教研主管', entry:'2021-05-01', last:'2024-09-15 17:45'},
+    {name:'田伯光', sex:'男', avatar:'🧑', pos:'班主任', entry:'2021-06-15', last:'2024-09-16 15:30'},
+    {name:'不戒',   sex:'女', avatar:'👩', pos:'班主任', entry:'2021-07-20', last:'2024-09-17 09:00'},
+    {name:'左冷禅', sex:'男', avatar:'🧑', pos:'班主任', entry:'2021-05-01', last:'2024-09-15 17:45'},
+    {name:'定逸',   sex:'女', avatar:'👩', pos:'班主任', entry:'2021-05-01', last:'2024-09-15 17:45'},
+    {name:'东方兄弟',sex:'男', avatar:'🧑', pos:'讲师', entry:'2021-05-01', last:'2024-09-15 17:45'},
+    {name:'金庸',   sex:'男', avatar:'🧑', pos:'咨询师', entry:'2021-05-01', last:'2024-09-15 17:45'}
+  ];
+
+  const tbody = document.getElementById('tbody');
+
+  function renderRows(list){
+    tbody.innerHTML = '';
+    list.forEach((r, idx) => {
+      const tr = document.createElement('tr');
+
+      tr.innerHTML = `
+        <td class="col-name">${r.name}</td>
+        <td class="col-gender">${r.sex}</td>
+        <td class="col-avatar"><span class="avatar" title="${r.name}">${r.avatar}</span></td>
+        <td class="col-pos">${r.pos}</td>
+        <td class="col-entry">${r.entry}</td>
+        <td class="col-last">${r.last}</td>
+        <td class="col-op">
+          <div class="ops">
+            <button class="edit" data-idx="${idx}">编辑</button>
+            <button class="del" data-idx="${idx}">删除</button>
+          </div>
+        </td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
+  // 初始渲染
+  renderRows(data);
+
+  // 简单筛选功能
+  document.getElementById('searchBtn').addEventListener('click', () => {
+    const name = document.getElementById('q-name').value.trim().toLowerCase();
+    const sex = document.getElementById('q-sex').value;
+    const pos = document.getElementById('q-pos').value;
+    const filtered = data.filter(item => {
+      if(name && !item.name.toLowerCase().includes(name)) return false;
+      if(sex && item.sex !== sex) return false;
+      if(pos && item.pos !== pos) return false;
+      return true;
+    });
+    renderRows(filtered);
+  });
+
+  document.getElementById('clearBtn').addEventListener('click', () => {
+    document.getElementById('q-name').value = '';
+    document.getElementById('q-sex').value = '';
+    document.getElementById('q-pos').value = '';
+    renderRows(data);
+  });
+
+  // 委托删除/编辑演示（不持久化）
+  tbody.addEventListener('click', (e) => {
+    const t = e.target;
+    if(t.matches('button.del')){
+      const idx = t.dataset.idx;
+      if(confirm('确认删除 "' + data[idx].name + '" 吗？')){
+        data.splice(idx,1);
+        renderRows(data);
+      }
+    } else if(t.matches('button.edit')){
+      const idx = t.dataset.idx;
+      const newName = prompt('编辑姓名：', data[idx].name);
+      if(newName !== null && newName.trim() !== ''){
+        data[idx].name = newName.trim();
+        renderRows(data);
+      }
+    }
+  });
+</script>
+</body>
+</html>
