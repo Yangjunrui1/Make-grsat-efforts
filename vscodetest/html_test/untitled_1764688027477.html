@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智能学习辅助助手 - 表单页面</title>
+    <style>
+        /* 顶部导航栏样式 */
+        .navbar {
+            background-color: #7e7d7d;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        /* 标题样式 */
+        .navbar h1 {
+            margin: 0;
+            font-size: 24px;
+            color: #89e5f5;
+            font-family: "宋体", SongTi, serif;
+        }
+        
+        /* 登录链接样式 */
+        .login-link {
+            text-decoration: none;
+            color: #efbfde;
+            padding: 8px 16px;
+            border: 1px solid #efbfde;
+            border-radius: 4px;
+        }
+        
+        .login-link:hover {
+            background-color: #efbfde;
+            color: #7e7d7d;
+        }
+        
+        /* 表单容器样式 */
+        .form-container {
+            max-width: 500px;
+            margin: 30px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .form-container h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+        
+        .form-group input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #7e7d7d;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .submit-btn:hover {
+            background-color: #6c6b6b;
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <nav class="navbar">
+        <h1>智能学习辅助助手</h1>
+        <a href="#" class="login-link">登录</a>
+    </nav>
+    
+    <!-- 表单部分 -->
+    <div class="form-container">
+        <h2>用户信息录入</h2>
+        <form action="/save" method="post">
+            <div class="form-group">
+                <label for="username">姓名：</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="age">年龄：</label>
+                <input type="text" id="age" name="age" required>
+            </div>
+            
+            <input type="submit" value="提交" class="submit-btn">
+        </form>
+    </div>
+</body>
+</html>
