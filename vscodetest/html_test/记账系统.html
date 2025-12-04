@@ -1,0 +1,607 @@
+<!DOCTYPE html> <!-- 声明HTML5文档类型 -->
+<html lang="zh-CN"> <!-- 设置页面语言为简体中文 -->
+<head> <!-- 头部标签开始 -->
+    <meta charset="UTF-8"> <!-- 设置字符编码为UTF-8 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 设置视口，支持响应式设计 -->
+    <title>个人财务记账管理系统</title> <!-- 设置页面标题 -->
+    <style> <!-- 内部样式表开始 -->
+        * { /* 通用选择器，重置所有元素样式 */
+            margin: 0; /* 清除外边距 */
+            padding: 0; /* 清除内边距 */
+            box-sizing: border-box; /* 使用border-box盒模型 */
+        }
+
+        body { /* 设置页面主体样式 */
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; /* 设置字体 */
+            background-color: #f5f5f5; /* 设置背景颜色为浅灰色 */
+        }
+
+        .header { /* 页面头部样式 */
+            background-color: #00a8e1; /* 设置背景颜色为蓝色 */
+            color: white; /* 设置文字颜色为白色 */
+            padding: 15px 20px; /* 设置内边距 */
+            display: flex; /* 使用弹性布局 */
+            justify-content: space-between; /* 子元素两端对齐 */
+            align-items: center; /* 子元素垂直居中 */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* 添加阴影效果 */
+        }
+
+        .header-left { /* 头部左侧区域样式 */
+            display: flex; /* 使用弹性布局 */
+            align-items: center; /* 子元素垂直居中 */
+            gap: 10px; /* 子元素之间的间距 */
+        }
+
+        .logo { /* Logo图标样式 */
+            width: 35px; /* 设置宽度 */
+            height: 35px; /* 设置高度 */
+            background-color: white; /* 设置背景颜色为白色 */
+            border-radius: 5px; /* 设置圆角 */
+            display: flex; /* 使用弹性布局 */
+            align-items: center; /* 垂直居中 */
+            justify-content: center; /* 水平居中 */
+            font-size: 20px; /* 设置字体大小 */
+        }
+
+        .header-title { /* 头部标题样式 */
+            font-size: 18px; /* 设置字体大小 */
+            font-weight: 500; /* 设置字体粗细 */
+        }
+
+        .user-info { /* 用户信息区域样式 */
+            cursor: pointer; /* 设置鼠标指针为手型 */
+        }
+
+        .container { /* 主容器样式 */
+            display: flex; /* 使用弹性布局 */
+            height: calc(100vh - 65px); /* 设置高度为视口高度减去头部高度 */
+        }
+
+        .sidebar { /* 侧边栏样式 */
+            width: 200px; /* 设置宽度 */
+            background-color: white; /* 设置背景颜色为白色 */
+            box-shadow: 2px 0 4px rgba(0,0,0,0.05); /* 添加右侧阴影效果 */
+        }
+
+        .menu-item { /* 菜单项样式 */
+            padding: 15px 20px; /* 设置内边距 */
+            cursor: pointer; /* 设置鼠标指针为手型 */
+            display: flex; /* 使用弹性布局 */
+            align-items: center; /* 子元素垂直居中 */
+            gap: 10px; /* 子元素之间的间距 */
+            transition: background-color 0.2s; /* 添加背景颜色过渡效果 */
+            border-left: 3px solid transparent; /* 设置左边框，默认透明 */
+        }
+
+        .menu-item:hover { /* 菜单项悬停效果 */
+            background-color: #f0f0f0; /* 设置悬停时的背景颜色 */
+        }
+
+        .menu-item.active { /* 激活状态的菜单项样式 */
+            background-color: #e6f7ff; /* 设置背景颜色为浅蓝色 */
+            border-left-color: #00a8e1; /* 设置左边框颜色为蓝色 */
+            color: #00a8e1; /* 设置文字颜色为蓝色 */
+        }
+
+        .menu-icon { /* 菜单图标样式 */
+            font-size: 16px; /* 设置字体大小 */
+        }
+
+        .main-content { /* 主内容区域样式 */
+            flex: 1; /* 占据剩余空间 */
+            padding: 20px; /* 设置内边距 */
+            overflow-y: auto; /* 垂直方向溢出时显示滚动条 */
+        }
+
+        .content-card { /* 内容卡片样式 */
+            background-color: white; /* 设置背景颜色为白色 */
+            border-radius: 4px; /* 设置圆角 */
+            padding: 20px; /* 设置内边距 */
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1); /* 添加阴影效果 */
+        }
+
+        .search-area { /* 搜索区域样式 */
+            display: flex; /* 使用弹性布局 */
+            gap: 10px; /* 子元素之间的间距 */
+            margin-bottom: 20px; /* 设置底部外边距 */
+            flex-wrap: wrap; /* 允许换行 */
+        }
+
+        .select-box, .input-box { /* 下拉框和输入框公共样式 */
+            padding: 8px 12px; /* 设置内边距 */
+            border: 1px solid #d9d9d9; /* 设置边框 */
+            border-radius: 4px; /* 设置圆角 */
+            font-size: 14px; /* 设置字体大小 */
+            outline: none; /* 去除聚焦时的轮廓 */
+        }
+
+        .select-box { /* 下拉框样式 */
+            width: 200px; /* 设置宽度 */
+            cursor: pointer; /* 设置鼠标指针为手型 */
+        }
+
+        .input-box { /* 输入框样式 */
+            width: 250px; /* 设置宽度 */
+        }
+
+        .btn { /* 按钮基础样式 */
+            padding: 8px 20px; /* 设置内边距 */
+            border: none; /* 去除边框 */
+            border-radius: 4px; /* 设置圆角 */
+            cursor: pointer; /* 设置鼠标指针为手型 */
+            font-size: 14px; /* 设置字体大小 */
+            transition: all 0.2s; /* 添加过渡效果 */
+        }
+
+        .btn-primary { /* 主要按钮样式 */
+            background-color: #00a8e1; /* 设置背景颜色为蓝色 */
+            color: white; /* 设置文字颜色为白色 */
+        }
+
+        .btn-primary:hover { /* 主要按钮悬停效果 */
+            background-color: #0096cc; /* 设置悬停时的背景颜色 */
+        }
+
+        .btn-success { /* 成功按钮样式 */
+            background-color: #52c41a; /* 设置背景颜色为绿色 */
+            color: white; /* 设置文字颜色为白色 */
+        }
+
+        .btn-success:hover { /* 成功按钮悬停效果 */
+            background-color: #49b318; /* 设置悬停时的背景颜色 */
+        }
+
+        .add-btn { /* 新增按钮样式 */
+            margin-bottom: 20px; /* 设置底部外边距 */
+        }
+
+        table { /* 表格样式 */
+            width: 100%; /* 设置宽度为100% */
+            border-collapse: collapse; /* 合并边框 */
+        }
+
+        th, td { /* 表头和单元格样式 */
+            padding: 12px; /* 设置内边距 */
+            text-align: left; /* 文字左对齐 */
+            border-bottom: 1px solid #f0f0f0; /* 设置底部边框 */
+        }
+
+        th { /* 表头样式 */
+            background-color: #fafafa; /* 设置背景颜色为浅灰色 */
+            font-weight: 500; /* 设置字体粗细 */
+            color: #333; /* 设置文字颜色 */
+        }
+
+        tr:hover { /* 表格行悬停效果 */
+            background-color: #fafafa; /* 设置悬停时的背景颜色 */
+        }
+
+        .action-btn { /* 操作按钮样式 */
+            background: none; /* 去除背景 */
+            border: none; /* 去除边框 */
+            color: #00a8e1; /* 设置文字颜色为蓝色 */
+            cursor: pointer; /* 设置鼠标指针为手型 */
+            padding: 4px 8px; /* 设置内边距 */
+            margin-right: 8px; /* 设置右侧外边距 */
+            font-size: 14px; /* 设置字体大小 */
+        }
+
+        .action-btn:hover { /* 操作按钮悬停效果 */
+            text-decoration: underline; /* 添加下划线 */
+        }
+
+        .action-btn.delete { /* 删除按钮样式 */
+            color: #ff4d4f; /* 设置文字颜色为红色 */
+        }
+
+        .pagination { /* 分页区域样式 */
+            display: flex; /* 使用弹性布局 */
+            justify-content: flex-end; /* 子元素右对齐 */
+            align-items: center; /* 子元素垂直居中 */
+            gap: 15px; /* 子元素之间的间距 */
+            margin-top: 20px; /* 设置顶部外边距 */
+            padding-top: 20px; /* 设置顶部内边距 */
+            border-top: 1px solid #f0f0f0; /* 设置顶部边框 */
+        }
+
+        .page-info { /* 分页信息样式 */
+            color: #666; /* 设置文字颜色为灰色 */
+            font-size: 14px; /* 设置字体大小 */
+        }
+
+        .page-size-selector { /* 分页大小选择器样式 */
+            padding: 4px 8px; /* 设置内边距 */
+            border: 1px solid #d9d9d9; /* 设置边框 */
+            border-radius: 4px; /* 设置圆角 */
+            font-size: 14px; /* 设置字体大小 */
+        }
+
+        .page-btn { /* 分页按钮样式 */
+            padding: 6px 12px; /* 设置内边距 */
+            border: 1px solid #d9d9d9; /* 设置边框 */
+            background-color: white; /* 设置背景颜色为白色 */
+            cursor: pointer; /* 设置鼠标指针为手型 */
+            border-radius: 4px; /* 设置圆角 */
+            font-size: 14px; /* 设置字体大小 */
+        }
+
+        .page-btn:hover:not(:disabled) { /* 分页按钮悬停效果（非禁用状态） */
+            color: #00a8e1; /* 设置文字颜色为蓝色 */
+            border-color: #00a8e1; /* 设置边框颜色为蓝色 */
+        }
+
+        .page-btn:disabled { /* 禁用状态的分页按钮 */
+            cursor: not-allowed; /* 设置鼠标指针为禁止状态 */
+            opacity: 0.5; /* 设置透明度 */
+        }
+
+        .page-btn.active { /* 激活状态的分页按钮 */
+            background-color: #00a8e1; /* 设置背景颜色为蓝色 */
+            color: white; /* 设置文字颜色为白色 */
+            border-color: #00a8e1; /* 设置边框颜色为蓝色 */
+        }
+
+        .modal { /* 模态框样式 */
+            display: none; /* 默认隐藏 */
+            position: fixed; /* 固定定位 */
+            top: 0; /* 距离顶部为0 */
+            left: 0; /* 距离左侧为0 */
+            width: 100%; /* 设置宽度为100% */
+            height: 100%; /* 设置高度为100% */
+            background-color: rgba(0,0,0,0.5); /* 设置半透明黑色背景 */
+            z-index: 1000; /* 设置层级 */
+        }
+
+        .modal.show { /* 显示状态的模态框 */
+            display: flex; /* 使用弹性布局 */
+            justify-content: center; /* 水平居中 */
+            align-items: center; /* 垂直居中 */
+        }
+
+        .modal-content { /* 模态框内容区域样式 */
+            background-color: white; /* 设置背景颜色为白色 */
+            padding: 30px; /* 设置内边距 */
+            border-radius: 8px; /* 设置圆角 */
+            width: 500px; /* 设置宽度 */
+            max-width: 90%; /* 设置最大宽度为90% */
+        }
+
+        .modal-header { /* 模态框头部样式 */
+            font-size: 18px; /* 设置字体大小 */
+            font-weight: 500; /* 设置字体粗细 */
+            margin-bottom: 20px; /* 设置底部外边距 */
+        }
+
+        .form-group { /* 表单组样式 */
+            margin-bottom: 20px; /* 设置底部外边距 */
+        }
+
+        .form-label { /* 表单标签样式 */
+            display: block; /* 设置为块级元素 */
+            margin-bottom: 8px; /* 设置底部外边距 */
+            color: #333; /* 设置文字颜色 */
+            font-weight: 500; /* 设置字体粗细 */
+        }
+
+        .form-input { /* 表单输入框样式 */
+            width: 100%; /* 设置宽度为100% */
+            padding: 10px; /* 设置内边距 */
+            border: 1px solid #d9d9d9; /* 设置边框 */
+            border-radius: 4px; /* 设置圆角 */
+            font-size: 14px; /* 设置字体大小 */
+        }
+
+        .modal-footer { /* 模态框底部样式 */
+            display: flex; /* 使用弹性布局 */
+            justify-content: flex-end; /* 子元素右对齐 */
+            gap: 10px; /* 子元素之间的间距 */
+            margin-top: 25px; /* 设置顶部外边距 */
+        }
+
+        .btn-secondary { /* 次要按钮样式 */
+            background-color: white; /* 设置背景颜色为白色 */
+            border: 1px solid #d9d9d9; /* 设置边框 */
+            color: #666; /* 设置文字颜色为灰色 */
+        }
+
+        .btn-secondary:hover { /* 次要按钮悬停效果 */
+            border-color: #00a8e1; /* 设置边框颜色为蓝色 */
+            color: #00a8e1; /* 设置文字颜色为蓝色 */
+        }
+
+        .tag { /* 标签样式 */
+            display: inline-block; /* 设置为行内块元素 */
+            padding: 4px 12px; /* 设置内边距 */
+            background-color: #fafafa; /* 设置背景颜色为浅灰色 */
+            border: 1px solid #d9d9d9; /* 设置边框 */
+            border-radius: 4px; /* 设置圆角 */
+            font-size: 13px; /* 设置字体大小 */
+        }
+    </style> <!-- 内部样式表结束 -->
+</head> <!-- 头部标签结束 -->
+<body> <!-- 页面主体开始 -->
+    <div class="header"> <!-- 页面头部开始 -->
+        <div class="header-left"> <!-- 头部左侧区域 -->
+            <div class="logo">💰</div> <!-- Logo图标 -->
+            <div class="header-title">个人财务记账管理系统</div> <!-- 系统标题 -->
+        </div> <!-- 头部左侧区域结束 -->
+        <div class="user-info">管理员 ▼</div> <!-- 用户信息显示 -->
+    </div> <!-- 页面头部结束 -->
+
+    <div class="container"> <!-- 主容器开始 -->
+        <div class="sidebar"> <!-- 侧边栏开始 -->
+            <div class="menu-item"> <!-- 菜单项：首页 -->
+                <span class="menu-icon">🏠</span> <!-- 菜单图标 -->
+                <span>首页</span> <!-- 菜单文字 -->
+            </div> <!-- 菜单项结束 -->
+            <div class="menu-item"> <!-- 菜单项：用户信息 -->
+                <span class="menu-icon">👤</span> <!-- 菜单图标 -->
+                <span>用户信息</span> <!-- 菜单文字 -->
+            </div> <!-- 菜单项结束 -->
+            <div class="menu-item active"> <!-- 菜单项：收支类型（激活状态） -->
+                <span class="menu-icon">💸</span> <!-- 菜单图标 -->
+                <span>收支类型</span> <!-- 菜单文字 -->
+            </div> <!-- 菜单项结束 -->
+            <div class="menu-item"> <!-- 菜单项：公告信息 -->
+                <span class="menu-icon">📢</span> <!-- 菜单图标 -->
+                <span>公告信息</span> <!-- 菜单文字 -->
+            </div> <!-- 菜单项结束 -->
+        </div> <!-- 侧边栏结束 -->
+
+        <div class="main-content"> <!-- 主内容区域开始 -->
+            <div class="content-card"> <!-- 内容卡片开始 -->
+                <div class="search-area"> <!-- 搜索区域开始 -->
+                    <select class="select-box" id="categorySelect"> <!-- 一级分类下拉框 -->
+                        <option value="">请选择一级分类</option> <!-- 默认选项 -->
+                        <option value="支出">支出</option> <!-- 支出选项 -->
+                        <option value="收入">收入</option> <!-- 收入选项 -->
+                    </select> <!-- 下拉框结束 -->
+                    <input type="text" class="input-box" id="searchInput" placeholder="请输入二级分类名称"> <!-- 搜索输入框 -->
+                    <button class="btn btn-primary" onclick="searchData()">🔍 查询</button> <!-- 查询按钮 -->
+                </div> <!-- 搜索区域结束 -->
+
+                <button class="btn btn-success add-btn" onclick="showAddModal()">➕ 新增</button> <!-- 新增按钮 -->
+
+                <table> <!-- 数据表格开始 -->
+                    <thead> <!-- 表头开始 -->
+                        <tr> <!-- 表头行 -->
+                            <th>一级分类</th> <!-- 一级分类列 -->
+                            <th>二级分类</th> <!-- 二级分类列 -->
+                            <th>备注</th> <!-- 备注列 -->
+                            <th>操作</th> <!-- 操作列 -->
+                        </tr> <!-- 表头行结束 -->
+                    </thead> <!-- 表头结束 -->
+                    <tbody id="dataTable"> <!-- 表格主体开始，用于显示数据 -->
+                    </tbody> <!-- 表格主体结束 -->
+                </table> <!-- 数据表格结束 -->
+
+                <div class="pagination"> <!-- 分页区域开始 -->
+                    <span class="page-info">共 <span id="totalCount">0</span> 条</span> <!-- 显示总条数 -->
+                    <select class="page-size-selector" id="pageSizeSelect" onchange="changePageSize()"> <!-- 每页显示数量选择器 -->
+                        <option value="5">5条/页</option> <!-- 每页5条 -->
+                        <option value="10">10条/页</option> <!-- 每页10条 -->
+                        <option value="20">20条/页</option> <!-- 每页20条 -->
+                    </select> <!-- 选择器结束 -->
+                    <button class="page-btn" onclick="changePage('prev')">‹</button> <!-- 上一页按钮 -->
+                    <button class="page-btn active" id="page1" onclick="goToPage(1)">1</button> <!-- 第1页按钮 -->
+                    <button class="page-btn" id="page2" onclick="goToPage(2)">2</button> <!-- 第2页按钮 -->
+                    <button class="page-btn" id="page3" onclick="goToPage(3)">3</button> <!-- 第3页按钮 -->
+                    <button class="page-btn" onclick="changePage('next')">›</button> <!-- 下一页按钮 -->
+                    <span>前往</span> <!-- 前往文字 -->
+                    <input type="number" class="page-size-selector" style="width: 60px;" id="jumpPage" min="1"> <!-- 跳转页码输入框 -->
+                    <span>页</span> <!-- 页文字 -->
+                </div> <!-- 分页区域结束 -->
+            </div> <!-- 内容卡片结束 -->
+        </div> <!-- 主内容区域结束 -->
+    </div> <!-- 主容器结束 -->
+
+    <div class="modal" id="editModal"> <!-- 编辑/新增模态框开始 -->
+        <div class="modal-content"> <!-- 模态框内容开始 -->
+            <div class="modal-header" id="modalTitle">新增</div> <!-- 模态框标题 -->
+            <form onsubmit="saveData(event)"> <!-- 表单开始，提交时调用saveData函数 -->
+                <div class="form-group"> <!-- 表单组：一级分类 -->
+                    <label class="form-label">一级分类</label> <!-- 标签 -->
+                    <select class="form-input" id="editCategory" required> <!-- 下拉框，必填项 -->
+                        <option value="">请选择</option> <!-- 默认选项 -->
+                        <option value="支出">支出</option> <!-- 支出选项 -->
+                        <option value="收入">收入</option> <!-- 收入选项 -->
+                    </select> <!-- 下拉框结束 -->
+                </div> <!-- 表单组结束 -->
+                <div class="form-group"> <!-- 表单组：二级分类 -->
+                    <label class="form-label">二级分类</label> <!-- 标签 -->
+                    <input type="text" class="form-input" id="editSubCategory" required> <!-- 输入框，必填项 -->
+                </div> <!-- 表单组结束 -->
+                <div class="form-group"> <!-- 表单组：备注 -->
+                    <label class="form-label">备注</label> <!-- 标签 -->
+                    <input type="text" class="form-input" id="editNote"> <!-- 输入框 -->
+                </div> <!-- 表单组结束 -->
+                <div class="modal-footer"> <!-- 模态框底部按钮区域 -->
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">取消</button> <!-- 取消按钮 -->
+                    <button type="submit" class="btn btn-success">保存</button> <!-- 保存按钮 -->
+                </div> <!-- 底部按钮区域结束 -->
+            </form> <!-- 表单结束 -->
+        </div> <!-- 模态框内容结束 -->
+    </div> <!-- 模态框结束 -->
+
+    <script> <!-- JavaScript代码开始 -->
+        // 初始化数据数组，存储所有财务记录
+        let data = [
+            { id: 1, category: '支出', subCategory: '其他日常', note: '其他日常消费' }, // ID为1的记录
+            { id: 2, category: '支出', subCategory: '文化教育', note: '文化教育消费' }, // ID为2的记录
+            { id: 3, category: '支出', subCategory: '交通通信', note: '交通通信消费' }, // ID为3的记录
+            { id: 4, category: '支出', subCategory: '医疗保健', note: '医疗保健消费' }, // ID为4的记录
+            { id: 5, category: '支出', subCategory: '衣着消费', note: '衣着消费' }, // ID为5的记录
+            { id: 6, category: '支出', subCategory: '餐饮美食', note: '餐饮美食消费' }, // ID为6的记录
+            { id: 7, category: '支出', subCategory: '住房租金', note: '住房租金支出' }, // ID为7的记录
+            { id: 8, category: '收入', subCategory: '工资收入', note: '月度工资' }, // ID为8的记录
+            { id: 9, category: '收入', subCategory: '奖金收入', note: '年终奖金' }, // ID为9的记录
+            { id: 10, category: '收入', subCategory: '投资收益', note: '投资理财收益' }, // ID为10的记录
+            { id: 11, category: '收入', subCategory: '其他收入', note: '其他收入来源' } // ID为11的记录
+        ];
+
+        let filteredData = [...data]; // 创建过滤后的数据副本，用于搜索和显示
+        let currentPage = 1; // 当前页码，默认为第1页
+        let pageSize = 5; // 每页显示的记录数，默认为5条
+        let editingId = null; // 当前正在编辑的记录ID，null表示新增模式
+
+        // 渲染表格数据到页面
+        function renderTable() {
+            const startIndex = (currentPage - 1) * pageSize; // 计算当前页起始索引
+            const endIndex = startIndex + pageSize; // 计算当前页结束索引
+            const pageData = filteredData.slice(startIndex, endIndex); // 获取当前页的数据
+
+            const tbody = document.getElementById('dataTable'); // 获取表格主体元素
+            // 生成表格行的HTML，遍历当前页数据
+            tbody.innerHTML = pageData.map(item => `
+                <tr> <!-- 表格行开始 -->
+                    <td><span class="tag">${item.category}</span></td> <!-- 一级分类，显示为标签 -->
+                    <td>${item.subCategory}</td> <!-- 二级分类 -->
+                    <td>${item.note}</td> <!-- 备注信息 -->
+                    <td> <!-- 操作列 -->
+                        <button class="action-btn" onclick="editItem(${item.id})">✏️ 编辑</button> <!-- 编辑按钮 -->
+                        <button class="action-btn delete" onclick="deleteItem(${item.id})">🗑️ 删除</button> <!-- 删除按钮 -->
+                    </td>
+                </tr> <!-- 表格行结束 -->
+            `).join(''); // 将数组转换为字符串
+
+            document.getElementById('totalCount').textContent = filteredData.length; // 更新总记录数显示
+            updatePagination(); // 更新分页按钮状态
+        }
+
+        // 更新分页按钮的显示状态
+        function updatePagination() {
+            const totalPages = Math.ceil(filteredData.length / pageSize); // 计算总页数
+            
+            // 遍历前3个分页按钮
+            for (let i = 1; i <= 3; i++) {
+                const pageBtn = document.getElementById(`page${i}`); // 获取页码按钮元素
+                if (pageBtn) { // 如果按钮存在
+                    if (i <= totalPages) { // 如果页码不超过总页数
+                        pageBtn.style.display = 'inline-block'; // 显示按钮
+                        pageBtn.textContent = i; // 设置按钮文字为页码
+                        pageBtn.classList.toggle('active', i === currentPage); // 如果是当前页则添加active类
+                    } else { // 如果页码超过总页数
+                        pageBtn.style.display = 'none'; // 隐藏按钮
+                    }
+                }
+            }
+        }
+
+        // 搜索和过滤数据
+        function searchData() {
+            const category = document.getElementById('categorySelect').value; // 获取选择的一级分类
+            const searchText = document.getElementById('searchInput').value.toLowerCase(); // 获取搜索关键词并转为小写
+
+            // 过滤数据：同时满足分类和关键词条件
+            filteredData = data.filter(item => {
+                const matchCategory = !category || item.category === category; // 检查是否匹配分类（如果未选择则全部匹配）
+                const matchSearch = !searchText || item.subCategory.toLowerCase().includes(searchText); // 检查是否包含搜索关键词
+                return matchCategory && matchSearch; // 返回同时满足两个条件的记录
+            });
+
+            currentPage = 1; // 重置到第1页
+            renderTable(); // 重新渲染表格
+        }
+
+        // 改变每页显示的记录数
+        function changePageSize() {
+            pageSize = parseInt(document.getElementById('pageSizeSelect').value); // 获取选择的每页记录数
+            currentPage = 1; // 重置到第1页
+            renderTable(); // 重新渲染表格
+        }
+
+        // 切换到上一页或下一页
+        function changePage(direction) {
+            const totalPages = Math.ceil(filteredData.length / pageSize); // 计算总页数
+            
+            // 根据方向判断
+            if (direction === 'prev' && currentPage > 1) { // 如果是上一页且当前页大于1
+                currentPage--; // 页码减1
+            } else if (direction === 'next' && currentPage < totalPages) { // 如果是下一页且未到最后一页
+                currentPage++; // 页码加1
+            }
+            
+            renderTable(); // 重新渲染表格
+        }
+
+        // 跳转到指定页
+        function goToPage(page) {
+            const totalPages = Math.ceil(filteredData.length / pageSize); // 计算总页数
+            if (page >= 1 && page <= totalPages) { // 如果页码在有效范围内
+                currentPage = page; // 设置当前页码
+                renderTable(); // 重新渲染表格
+            }
+        }
+
+        // 显示新增模态框
+        function showAddModal() {
+            editingId = null; // 设置为null，表示新增模式
+            document.getElementById('modalTitle').textContent = '新增'; // 设置模态框标题为"新增"
+            document.getElementById('editCategory').value = ''; // 清空一级分类选择
+            document.getElementById('editSubCategory').value = ''; // 清空二级分类输入
+            document.getElementById('editNote').value = ''; // 清空备注输入
+            document.getElementById('editModal').classList.add('show'); // 显示模态框
+        }
+
+        // 编辑指定记录
+        function editItem(id) {
+            const item = data.find(d => d.id === id); // 根据ID查找记录
+            if (item) { // 如果找到记录
+                editingId = id; // 设置当前编辑的ID
+                document.getElementById('modalTitle').textContent = '编辑'; // 设置模态框标题为"编辑"
+                document.getElementById('editCategory').value = item.category; // 填充一级分类
+                document.getElementById('editSubCategory').value = item.subCategory; // 填充二级分类
+                document.getElementById('editNote').value = item.note; // 填充备注
+                document.getElementById('editModal').classList.add('show'); // 显示模态框
+            }
+        }
+
+        // 关闭模态框
+        function closeModal() {
+            document.getElementById('editModal').classList.remove('show'); // 移除show类，隐藏模态框
+        }
+
+        // 保存数据（新增或编辑）
+        function saveData(event) {
+            event.preventDefault(); // 阻止表单默认提交行为
+            
+            const category = document.getElementById('editCategory').value; // 获取一级分类值
+            const subCategory = document.getElementById('editSubCategory').value; // 获取二级分类值
+            const note = document.getElementById('editNote').value; // 获取备注值
+
+            if (editingId) { // 如果editingId存在，表示编辑模式
+                const item = data.find(d => d.id === editingId); // 查找要编辑的记录
+                if (item) { // 如果找到记录
+                    item.category = category; // 更新一级分类
+                    item.subCategory = subCategory; // 更新二级分类
+                    item.note = note; // 更新备注
+                }
+            } else { // 如果editingId不存在，表示新增模式
+                const newId = Math.max(...data.map(d => d.id)) + 1; // 计算新ID（最大ID+1）
+                data.push({ id: newId, category, subCategory, note }); // 添加新记录到数据数组
+            }
+
+            closeModal(); // 关闭模态框
+            searchData(); // 重新搜索并渲染数据
+        }
+
+        // 删除指定记录
+        function deleteItem(id) {
+            if (confirm('确定要删除这条记录吗？')) { // 弹出确认对话框
+                data = data.filter(d => d.id !== id); // 从数据数组中移除指定ID的记录
+                searchData(); // 重新搜索并渲染数据
+            }
+        }
+
+        // 为页码跳转输入框添加回车键监听事件
+        document.getElementById('jumpPage').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') { // 如果按下的是回车键
+                const page = parseInt(this.value); // 获取输入的页码值
+                goToPage(page); // 跳转到指定页
+            }
+        });
+
+        renderTable(); // 页面加载时执行初始渲染
+    </script> <!-- JavaScript代码结束 -->
+</body> <!-- 页面主体结束 -->
+</html> <!-- HTML文档结束 -->
