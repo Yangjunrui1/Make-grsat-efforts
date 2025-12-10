@@ -1,0 +1,31 @@
+{
+  "next_id": 5,
+  "transactions": [
+    {
+      "trans_id": 1,
+      "trans_type": "收入",
+      "amount": 5000.0,
+      "category": "工资",
+      "date": "2025-12-10",
+      "description": "11月工资"
+    },
+    {
+      "trans_id": 2,
+      "trans_type": "支出",
+      "amount": 45.5,
+      "category": "餐饮",
+      "date": "2025-12-10",
+      "description": "午餐"
+    },
+    {
+      "trans_id": 3,
+      "trans_type": "支出",
+      "amount": 299.0,
+      "category": "购物",
+      "date": "2025-12-10",
+      "description": "买衣服"
+    }
+  ]
+}
+
+

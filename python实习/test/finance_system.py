@@ -71,7 +71,8 @@ class FinanceSystem:
         self.save_data()
         return True
     
-    def delete_transaction(self, trans_id):
+    def \
+            delete_transaction(self, trans_id):
         """删除交易记录"""
         for i, trans in enumerate(self.transactions):
             if trans.trans_id == trans_id:
@@ -150,7 +151,6 @@ class FinanceSystem:
     def get_statistics(self, start_date=None, end_date=None):
         """统计分析"""
         transactions = self.transactions
-        
         # 按日期筛选
         if start_date:
             transactions = [t for t in transactions if t.date >= start_date]
@@ -319,7 +319,7 @@ class FinanceSystem:
         print("2. 按类型查询")
         print("3. 按分类查询")
         print("4. 按日期范围查询")
-        
+
         choice = input("请选择查询方式（1-4）：").strip()
         filters = {}
         
