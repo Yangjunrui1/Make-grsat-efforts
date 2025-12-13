@@ -1,0 +1,1338 @@
+```html
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>农情速知 - 智慧农业云平台 Pro</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-green: #00b894;
+            --dark-green: #00cec9;
+            --accent-blue: #0984e3;
+            --warning-yellow: #fdcb6e;
+            --danger-red: #d63031;
+            --glass-bg: rgba(255, 255, 255, 0.75);
+            --glass-border: 1px solid rgba(255, 255, 255, 0.8);
+            --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+            --text-main: #2d3436;
+            --info-blue: #3498db;
+            --success-green: #27ae60;
+            --error-red: #e74c3c;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif; }
+        body {
+            background: url('https://images.unsplash.com/photo-1625246333195-78d9c38ad449?q=80&w=2940&auto=format&fit=crop') no-repeat center center fixed;
+            background-size: cover;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            color: var(--text-main);
+        }
+        /* 侧边栏 */
+        .sidebar {
+            width: 240px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            height: 100%;
+            padding: 25px;
+            border-right: 1px solid rgba(255,255,255,0.5);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+        }
+        .main-content {
+            flex: 1;
+            position: relative;
+            padding: 20px;
+            overflow-y: auto;
+            background: rgba(0,0,0,0.02);
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: 800;
+            background: linear-gradient(45deg, var(--primary-green), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .nav-item {
+            padding: 16px;
+            border-radius: 16px;
+            color: #636e72;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 500;
+        }
+        .nav-item.active, .nav-item:hover {
+            background: linear-gradient(90deg, #e0f7fa, #ffffff);
+            color: var(--accent-blue);
+            box-shadow: 0 4px 15px rgba(0, 184, 148, 0.1);
+            transform: translateX(5px);
+        }
+        .header-bar {
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .weather-badge {
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--text-main);
+            padding: 10px 20px;
+            border-radius: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            backdrop-filter: blur(10px);
+            font-weight: 600;
+            transition: 0.3s;
+        }
+        .weather-badge:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
+        .weather-refresh-btn {
+            background: transparent;
+            border: none;
+            color: var(--accent-blue);
+            cursor: pointer;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+            transition: background 0.3s;
+        }
+        .weather-refresh-btn:hover { background: rgba(9, 132, 227, 0.1); }
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-radius: 24px;
+            border: var(--glass-border);
+            box-shadow: var(--shadow);
+            padding: 25px;
+            margin-bottom: 25px;
+            transition: transform 0.3s ease;
+        }
+        .glass-card:hover { transform: translateY(-3px); }
+        .section-container { display: none; animation: fadeIn 0.6s cubic-bezier(0.22, 1, 0.36, 1); max-width: 1400px; margin: 0 auto; }
+        .section-container.active-section { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        /* 农田监测 */
+        .monitor-grid {
+            display: grid;
+            grid-template-columns: 320px 1fr 280px;
+            gap: 25px;
+        }
+        .data-box {
+            background: rgba(255,255,255,0.6);
+            border-radius: 16px;
+            padding: 15px;
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .data-icon {
+            width: 45px; height: 45px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #a8e6cf, #dcedc1);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 20px; color: #2d3436;
+        }
+        .map-container {
+            width: 100%; height: 100%; min-height: 400px;
+            border-radius: 24px;
+            background-color: #2c3e50;
+            background-image: radial-gradient(#34495e 1px, transparent 1px);
+            background-size: 20px 20px;
+            position: relative;
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.2);
+            overflow: hidden;
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+       
+        .map-marker {
+            position: absolute; width: 16px; height: 16px; background: #e74c3c;
+            border-radius: 50%; border: 3px solid #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            cursor: pointer; transform: translate(-50%, -50%);
+            z-index: 2;
+        }
+        .map-marker::after {
+            content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 40px; height: 40px; background: rgba(231, 76, 60, 0.4);
+            border-radius: 50%; animation: pulse 2s infinite; z-index: -1;
+        }
+        .map-marker.normal { background: #00b894; }
+        .map-marker.normal::after { background: rgba(0, 184, 148, 0.4); }
+        .map-marker.warning { background: #fdcb6e; }
+        .map-marker.warning::after { background: rgba(253, 203, 110, 0.4); }
+        .map-marker.danger { background: #d63031; }
+        .map-marker.danger::after { background: rgba(214, 48, 49, 0.4); }
+        .map-marker.info { background: #0984e3; }
+        .map-marker.info::after { background: rgba(9, 132, 227, 0.4); }
+       
+        .map-tooltip {
+            position: absolute; background: rgba(255,255,255,0.95);
+            padding: 8px 12px; border-radius: 8px; font-size: 12px; font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transform: translate(-50%, -150%); pointer-events: none;
+            white-space: nowrap;
+        }
+        @keyframes pulse { 0% { width: 16px; height: 16px; opacity: 1; } 100% { width: 60px; height: 60px; opacity: 0; } }
+        .system-status {
+            display: flex; flex-direction: column; gap: 15px;
+            height: 100%; justify-content: center;
+        }
+        .status-indicator {
+            padding: 15px; border-radius: 16px; background: rgba(255,255,255,0.5);
+            display: flex; align-items: center; gap: 15px;
+            border-left: 4px solid #ccc; transition: 0.3s;
+        }
+        .status-indicator.active { background: #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transform: scale(1.02); }
+        .status-indicator.ok { border-color: var(--primary-green); }
+        .status-indicator.warn { border-color: var(--warning-yellow); }
+        /* 灌溉建议 */
+        .irrigation-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 25px; }
+       
+        .advice-card {
+            border-left: 5px solid var(--primary-green);
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.8);
+            margin-bottom: 15px;
+            border-radius: 12px;
+        }
+        .advice-card.warning { border-left-color: var(--danger-red); }
+        .control-btn {
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+        .btn-start {
+            background: var(--primary-green);
+        }
+        .btn-start:hover { background: var(--dark-green); transform: translateY(-2px); }
+        .btn-start:disabled { background: #ccc; cursor: not-allowed; transform: none; }
+        .btn-schedule {
+            background: var(--accent-blue);
+        }
+        .btn-schedule:hover { background: #0652b1; transform: translateY(-2px); }
+        .btn-history {
+            background: var(--info-blue);
+        }
+        .btn-history:hover { background: #2980b9; transform: translateY(-2px); }
+        /* 生长预测 */
+        .growth-timeline {
+            position: relative;
+            padding: 20px 0;
+            display: flex;
+            justify-content: space-between;
+        }
+        .timeline-item {
+            position: relative;
+            text-align: center;
+            flex: 1;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: #ddd;
+            z-index: -1;
+        }
+        .timeline-dot {
+            width: 34px;
+            height: 34px;
+            background: #ddd;
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        .timeline-item.active .timeline-dot {
+            background: var(--primary-green);
+        }
+        .timeline-item.active::before {
+            background: var(--primary-green);
+        }
+        /* 图片扫描 */
+        .scan-box {
+            height: 250px; background: #f1f2f6; border-radius: 16px;
+            border: 2px dashed #b2bec3; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; cursor: pointer;
+            position: relative; overflow: hidden; transition: 0.3s;
+        }
+        .scan-box:hover { border-color: var(--primary-green); background: #e8f8f5; }
+        .scan-line {
+            position: absolute; width: 100%; height: 4px; background: var(--primary-green);
+            box-shadow: 0 0 15px var(--primary-green); top: 0; left: 0;
+            animation: scanning 2s infinite linear; display: none;
+        }
+        @keyframes scanning { 0% { top: 0; } 100% { top: 100%; } }
+        /* 设备管理 */
+        .device-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        .device-card {
+            background: white;
+            padding: 20px;
+            border-radius: 16px;
+            position: relative;
+            transition: 0.3s;
+        }
+        .device-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .status-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .status-online {
+            background: #e8f8f5;
+            color: var(--dark-green);
+        }
+        .status-offline {
+            background: #fdedec;
+            color: var(--danger-red);
+        }
+        .signal-bars {
+            display: inline-flex;
+            gap: 2px;
+            align-items: flex-end;
+            height: 12px;
+        }
+        .bar {
+            width: 3px;
+            background: #ddd;
+        }
+        .bar.active {
+            background: var(--primary-green);
+        }
+        /* 模态框样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            animation: fadeIn 0.3s;
+        }
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-content {
+            background: white;
+            border-radius: 24px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.3s;
+        }
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #999;
+            transition: 0.3s;
+        }
+        .modal-close:hover {
+            color: #333;
+            transform: rotate(90deg);
+        }
+        .message-item {
+            padding: 15px;
+            border-radius: 12px;
+            background: #f8f9fa;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+            border-left: 4px solid transparent;
+        }
+        .message-item:hover {
+            background: #e8f8f5;
+            border-left-color: var(--primary-green);
+            transform: translateX(5px);
+        }
+        .message-item.unread {
+            background: #fff3cd;
+            border-left-color: var(--warning-yellow);
+        }
+        .qr-scanner {
+            width: 300px;
+            height: 300px;
+            margin: 20px auto;
+            background: #f1f2f6;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            border: 2px dashed #b2bec3;
+        }
+        .qr-corner {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            border: 3px solid var(--primary-green);
+        }
+        .qr-corner.top-left {
+            top: 10px;
+            left: 10px;
+            border-right: none;
+            border-bottom: none;
+        }
+        .qr-corner.top-right {
+            top: 10px;
+            right: 10px;
+            border-left: none;
+            border-bottom: none;
+        }
+        .qr-corner.bottom-left {
+            bottom: 10px;
+            left: 10px;
+            border-right: none;
+            border-top: none;
+        }
+        .qr-corner.bottom-right {
+            bottom: 10px;
+            right: 10px;
+            border-left: none;
+            border-top: none;
+        }
+        .scan-line-qr {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: var(--primary-green);
+            box-shadow: 0 0 10px var(--primary-green);
+            animation: qrScanning 2s infinite;
+        }
+        @keyframes qrScanning {
+            0%, 100% {
+                top: 10%;
+            }
+            50% {
+                top: 90%;
+            }
+        }
+        .expert-card {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .expert-card:hover {
+            background: #e8f8f5;
+            transform: translateX(5px);
+        }
+        .expert-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-green), var(--dark-green));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .expert-status {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--primary-green);
+            margin-left: 5px;
+            animation: blink 2s infinite;
+        }
+        @keyframes blink {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.3;
+            }
+        }
+        .upload-area {
+            border: 2px dashed #b2bec3;
+            border-radius: 16px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+            background: #f8f9fa;
+        }
+        .upload-area:hover {
+            border-color: var(--primary-green);
+            background: #e8f8f5;
+        }
+        .upload-area.dragover {
+            border-color: var(--primary-green);
+            background: #e8f8f5;
+            transform: scale(1.02);
+        }
+        .image-preview {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 12px;
+            margin: 10px 0;
+        }
+        .badge-notification {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--danger-red);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        /* 设备日志模态框 */
+        .log-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .log-item {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            font-size: 13px;
+            color: #666;
+        }
+        .log-item:last-child {
+            border-bottom: none;
+        }
+        .log-item.success {
+            color: var(--success-green);
+        }
+        .log-item.error {
+            color: var(--error-red);
+        }
+        /* 设备设置模态框 */
+        .setting-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .setting-input {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        /* 确认模态框 */
+        .confirm-text {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 16px;
+            color: #333;
+        }
+        .confirm-buttons {
+            display: flex;
+            justify-content: space-around;
+        }
+        /* 优化：添加响应式设计 */
+        @media (max-width: 1200px) {
+            .monitor-grid {
+                grid-template-columns: 1fr;
+            }
+            .irrigation-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 200px;
+            }
+            .nav-item {
+                font-size: 14px;
+            }
+            .glass-card {
+                padding: 15px;
+            }
+            .device-list {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo"><i class="fas fa-leaf"></i> 农情速知 Pro</div>
+        <div class="nav-item active" onclick="switchTab('monitor', this)">
+            <i class="fas fa-chart-pie"></i> 农田监测
+        </div>
+        <div class="nav-item" onclick="switchTab('irrigation', this)">
+            <i class="fas fa-tint"></i> 智能灌溉
+        </div>
+        <div class="nav-item" onclick="switchTab('growth', this)">
+            <i class="fas fa-chart-line"></i> 生长预测
+        </div>
+        <div class="nav-item" onclick="switchTab('devices', this)">
+            <i class="fas fa-robot"></i> 设备管理
+        </div>
+        <div style="margin-top: auto; padding: 20px; background: linear-gradient(135deg, #00b894, #00cec9); border-radius: 16px; color: white; text-align: center;">
+            <div style="font-size: 12px; opacity: 0.9;">当前农户</div>
+            <div style="font-weight: bold; font-size: 16px; margin: 5px 0 10px;">李大伯 (VIP)</div>
+            <button onclick="openExpertModal()" style="width:100%; padding:8px; background:rgba(255,255,255,0.2); border:1px solid rgba(255,255,255,0.4); color:white; border-radius:8px; cursor:pointer; transition: 0.3s;">
+                <i class="fas fa-headset"></i> 联系专家
+            </button>
+        </div>
+    </div>
+    <div class="main-content">
+        <div class="header-bar">
+            <div class="weather-badge" id="weatherBadge">
+                <i class="fas fa-spinner fa-spin"></i> 正在获取定位与天气...
+                <button class="weather-refresh-btn" onclick="getLocationAndWeather(true)" title="刷新天气">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+            </div>
+           
+            <div class="weather-badge" style="cursor: pointer; position: relative;" onclick="openMessageModal()">
+                <i class="fas fa-bell" style="color: #fdcb6e;"></i>
+                <span id="messageCount">3条新消息</span>
+                <div class="badge-notification" id="notificationBadge">3</div>
+            </div>
+        </div>
+        <!-- 农田监测 -->
+        <div id="section-monitor" class="section-container active-section">
+            <div class="monitor-grid">
+                <div style="display:flex; flex-direction:column; gap:20px;">
+                    <div class="glass-card" style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+                        <h4 style="align-self: flex-start; margin-bottom: 10px; color:#636e72;">土壤墒情</h4>
+                        <div id="gaugeChart" style="width: 220px; height: 220px;"></div>
+                        <div style="text-align: center; margin-top: -30px;">
+                            <h2 style="font-size: 36px; color: var(--primary-green);">24%</h2>
+                            <span style="padding: 4px 12px; background: #e8f8f5; color: var(--primary-green); border-radius: 12px; font-size: 12px;">适宜生长</span>
+                        </div>
+                    </div>
+                    <div class="glass-card" style="flex:1;">
+                        <h4 style="color:#636e72;">环境总览</h4>
+                        <div class="data-box">
+                            <div class="data-icon"><i class="fas fa-thermometer-half"></i></div>
+                            <div>
+                                <div style="font-size:12px; color:#999;">空气温度</div>
+                                <div style="font-weight:bold; font-size:18px;">26.5°C</div>
+                            </div>
+                        </div>
+                        <div class="data-box">
+                            <div class="data-icon" style="background: linear-gradient(135deg, #fab1a0, #ff7675);"><i class="fas fa-sun"></i></div>
+                            <div>
+                                <div style="font-size:12px; color:#999;">光照强度</div>
+                                <div style="font-weight:bold; font-size:18px;">4500 Lux</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="glass-card" style="padding: 10px; display: flex; flex-direction: column;">
+                    <div style="display:flex; justify-content:space-between; margin: 10px 10px 20px;">
+                        <h3><i class="fas fa-map-marked-alt"></i> 实时地块监控</h3>
+                        <select style="background:transparent; border:1px solid #ddd; padding:5px 10px; border-radius:8px;">
+                            <option>1号麦田 (当前)</option>
+                            <option>2号玉米地</option>
+                            <option>3号蔬菜园</option>
+                            <option>4号果园</option>
+                        </select>
+                    </div>
+                    <div class="map-container">
+                        <div style="position:absolute; width:100%; height:100%; background: linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px); background-size: 50px 50px;"></div>
+                       
+                        <div class="map-marker normal" style="top: 40%; left: 30%;">
+                            <div class="map-tooltip">传感器 #01<br>湿度: 24%<br>状态: 正常</div>
+                        </div>
+                       
+                        <div class="map-marker warning" style="top: 65%; left: 60%;">
+                            <div class="map-tooltip">传感器 #02<br>电量: 低<br>温度: 28°C</div>
+                        </div>
+                        <div class="map-marker normal" style="top: 25%; left: 70%;">
+                            <div class="map-tooltip">无人机 #D1<br>巡航中<br>高度: 50m</div>
+                        </div>
+                        <div class="map-marker danger" style="top: 50%; left: 50%;">
+                            <div class="map-tooltip">灌溉阀门 #A2<br>故障: 泄漏<br>水压: 高</div>
+                        </div>
+                        <div class="map-marker info" style="top: 30%; left: 80%;">
+                            <div class="map-tooltip">气象站 #W2<br>风速: 3m/s<br>降雨: 无</div>
+                        </div>
+                        <div class="map-marker normal" style="top: 70%; left: 20%;">
+                            <div class="map-tooltip">土壤传感器 #S2<br>pH: 6.8<br>营养: 充足</div>
+                        </div>
+                        <div class="map-marker warning" style="top: 80%; left: 40%;">
+                            <div class="map-tooltip">光照传感器 #L2<br>强度: 低<br>警报: 遮挡</div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 10px; display: flex; justify-content: center; gap: 10px; font-size: 12px;">
+                        <span><i class="fas fa-circle" style="color: #00b894;"></i> 正常</span>
+                        <span><i class="fas fa-circle" style="color: #fdcb6e;"></i> 警告</span>
+                        <span><i class="fas fa-circle" style="color: #d63031;"></i> 危险</span>
+                        <span><i class="fas fa-circle" style="color: #0984e3;"></i> 信息</span>
+                    </div>
+                </div>
+                <div class="glass-card" style="display: flex; flex-direction: column;">
+                    <h3>AI 决策大脑</h3>
+                    <p style="font-size:13px; color:#999; margin-bottom:20px;">基于模型实时分析中...</p>
+                   
+                    <div class="system-status">
+                        <div class="status-indicator active ok">
+                            <i class="fas fa-check-circle" style="font-size: 24px; color: var(--primary-green);"></i>
+                            <div>
+                                <strong>无需灌溉</strong>
+                                <div style="font-size:12px; color:#666;">土壤水分充足</div>
+                            </div>
+                        </div>
+                       
+                        <div class="status-indicator warn" style="opacity: 0.7;">
+                            <i class="fas fa-exclamation-circle" style="font-size: 24px; color: var(--warning-yellow);"></i>
+                            <div>
+                                <strong>病害预警</strong>
+                                <div style="font-size:12px; color:#666;">湿度大利于锈病</div>
+                            </div>
+                        </div>
+                        <div class="status-indicator" style="opacity: 0.5;">
+                            <i class="fas fa-bolt" style="font-size: 24px; color: #b2bec3;"></i>
+                            <div>
+                                <strong>设备正常</strong>
+                                <div style="font-size:12px; color:#666;">所有节点在线</div>
+                            </div>
+                        </div>
+                    </div>
+                   
+                    <div style="margin-top:auto; padding: 15px; background:#f1f2f6; border-radius:12px;">
+                        <small style="color:#666;">系统日志:</small>
+                        <div style="font-size:12px; margin-top:5px; color:#2d3436;">10:00 - 数据同步完成</div>
+                        <div style="font-size:12px; color:#2d3436;">09:30 - AI模型更新完毕</div>
+                    </div>
+                </div>
+            </div>
+            <div class="glass-card" style="margin-top:20px;">
+                <h3><i class="fas fa-history"></i> 7天土壤湿度趋势</h3>
+                <div id="lineChart" style="width: 100%; height: 250px;"></div>
+            </div>
+        </div>
+        <!-- 智能灌溉 -->
+        <div id="section-irrigation" class="section-container">
+            <div class="glass-card">
+                <h2><i class="fas fa-faucet"></i> 智能灌溉决策中心</h2>
+                <p style="color:#666; font-size:14px; margin-bottom:20px;">基于阈值算法与作物模型生成的精准建议</p>
+                <div class="irrigation-grid">
+                    <div>
+                        <div class="advice-card">
+                            <div style="display:flex; justify-content:space-between; align-items:center;">
+                                <div>
+                                    <h4><i class="fas fa-map-marker-alt" style="color:var(--primary-green)"></i> 地块 A (小麦 - 拔节期)</h4>
+                                    <p style="font-size:13px; color:#666;">当前湿度: 22% (适宜范围: 20%-60%)</p>
+                                </div>
+                                <span style="background:#e8f8f5; color:var(--primary-green); padding:4px 10px; border-radius:20px; font-size:12px;">水分充足</span>
+                            </div>
+                            <hr style="margin:10px 0; border:none; border-top:1px solid #eee;">
+                            <div style="display:flex; justify-content:space-between; align-items:center;">
+                                <p style="font-size:14px;"><i class="fas fa-comment-alt" style="color:var(--primary-green)"></i> 建议：今日无需操作，预计3天后需补水。</p>
+                                <button class="control-btn btn-start" disabled style="background:#ccc; cursor:not-allowed;">开启灌溉</button>
+                            </div>
+                            <div style="margin-top:10px; display:flex; gap:10px;">
+                                <button class="control-btn btn-schedule" onclick="openIrrigationSchedule('A')"><i class="fas fa-calendar-alt"></i> 调度计划</button>
+                                <button class="control-btn btn-history" onclick="openIrrigationHistory('A')"><i class="fas fa-history"></i> 灌溉历史</button>
+                            </div>
+                        </div>
+                        <div class="advice-card warning">
+                            <div style="display:flex; justify-content:space-between; align-items:center;">
+                                <div>
+                                    <h4><i class="fas fa-map-marker-alt" style="color:var(--danger-red)"></i> 地块 B (蔬菜 - 幼苗期)</h4>
+                                    <p style="font-size:13px; color:#666;">当前湿度: 15% (适宜范围: 40%-70%)</p>
+                                </div>
+                                <span style="background:#fdedec; color:var(--danger-red); padding:4px 10px; border-radius:20px; font-size:12px;">严重缺水</span>
+                            </div>
+                            <hr style="margin:10px 0; border:none; border-top:1px solid #eee;">
+                            <div style="display:flex; justify-content:space-between; align-items:center;">
+                                <p style="font-size:14px; font-weight:bold; color:var(--danger-red);">
+                                    <i class="fas fa-exclamation-triangle"></i> 建议：立即灌溉 20分钟
+                                </p>
+                                <button class="control-btn btn-start" onclick="alert('指令已发送：开启阀门 B，时长20分钟')">
+                                    <i class="fas fa-play"></i> 立即执行
+                                </button>
+                            </div>
+                            <div style="margin-top:10px; display:flex; gap:10px;">
+                                <button class="control-btn btn-schedule" onclick="openIrrigationSchedule('B')"><i class="fas fa-calendar-alt"></i> 调度计划</button>
+                                <button class="control-btn btn-history" onclick="openIrrigationHistory('B')"><i class="fas fa-history"></i> 灌溉历史</button>
+                            </div>
+                        </div>
+                        <div class="advice-card">
+                            <div style="display:flex; justify-content:space-between; align-items:center;">
+                                <div>
+                                    <h4><i class="fas fa-map-marker-alt" style="color:var(--info-blue)"></i> 地块 C (玉米 - 生长期)</h4>
+                                    <p style="font-size:13px; color:#666;">当前湿度: 35% (适宜范围: 30%-50%)</p>
+                                </div>
+                                <span style="background:#e0f7fa; color:var(--accent-blue); padding:4px 10px; border-radius:20px; font-size:12px;">中等水平</span>
+                            </div>
+                            <hr style="margin:10px 0; border:none; border-top:1px solid #eee;">
+                            <div style="display:flex; justify-content:space-between; align-items:center;">
+                                <p style="font-size:14px;"><i class="fas fa-comment-alt" style="color:var(--accent-blue)"></i> 建议：监控中，预计2天后需灌溉。</p>
+                                <button class="control-btn btn-start" onclick="alert('指令已发送：开启阀门 C，时长10分钟')">
+                                    <i class="fas fa-play"></i> 手动灌溉
+                                </button>
+                            </div>
+                            <div style="margin-top:10px; display:flex; gap:10px;">
+                                <button class="control-btn btn-schedule" onclick="openIrrigationSchedule('C')"><i class="fas fa-calendar-alt"></i> 调度计划</button>
+                                <button class="control-btn btn-history" onclick="openIrrigationHistory('C')"><i class="fas fa-history"></i> 灌溉历史</button>
+                            </div>
+                        </div>
+                        <div class="advice-card warning">
+                            <div style="display:flex; justify-content:space-between; align-items:center;">
+                                <div>
+                                    <h4><i class="fas fa-map-marker-alt" style="color:var(--warning-yellow)"></i> 地块 D (果树 - 结果期)</h4>
+                                    <p style="font-size:13px; color:#666;">当前湿度: 45% (适宜范围: 50%-70%)</p>
+                                </div>
+                                <span style="background:#fef5e7; color:var(--warning-yellow); padding:4px 10px; border-radius:20px; font-size:12px;">轻度缺水</span>
+                            </div>
+                            <hr style="margin:10px 0; border:none; border-top:1px solid #eee;">
+                            <div style="display:flex; justify-content:space-between; align-items:center;">
+                                <p style="font-size:14px; font-weight:bold; color:var(--warning-yellow);">
+                                    <i class="fas fa-exclamation-triangle"></i> 建议：灌溉 15分钟
+                                </p>
+                                <button class="control-btn btn-start" onclick="alert('指令已发送：开启阀门 D，时长15分钟')">
+                                    <i class="fas fa-play"></i> 立即执行
+                                </button>
+                            </div>
+                            <div style="margin-top:10px; display:flex; gap:10px;">
+                                <button class="control-btn btn-schedule" onclick="openIrrigationSchedule('D')"><i class="fas fa-calendar-alt"></i> 调度计划</button>
+                                <button class="control-btn btn-history" onclick="openIrrigationHistory('D')"><i class="fas fa-history"></i> 灌溉历史</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div style="background:rgba(52, 152, 219, 0.1); padding:15px; border-radius:12px; height:100%;">
+                            <h4 style="color:#2980b9"><i class="fas fa-cloud-showers-heavy"></i> 气象联动预警</h4>
+                            <div style="margin-top:15px; font-size:14px; color:#34495e; line-height:1.6;">
+                                <p>未来24小时预报：<b>无有效降雨</b></p>
+                                <p>蒸发量预测：<b>高 (5mm/天)</b></p>
+                                <div style="margin-top:15px; padding:10px; background:white; border-radius:8px;">
+                                    <small>系统提示：</small><br>
+                                    近期高温，建议选择在<b>早晨6:00</b>或<b>傍晚18:00</b>进行灌溉，减少蒸发损耗。
+                                </div>
+                            </div>
+                            <div style="margin-top:15px;">
+                                <button class="control-btn btn-start" style="width:100%;" onclick="alert('自动调整已启用')"><i class="fas fa-sync"></i> 自动调整计划</button>
+                            </div>
+                            <div style="margin-top:10px;">
+                                <button class="control-btn btn-history" style="width:100%;" onclick="openGlobalIrrigationHistory()"><i class="fas fa-chart-bar"></i> 全局灌溉统计</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 生长预测 -->
+        <div id="section-growth" class="section-container">
+            <div class="glass-card">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <h2><i class="fas fa-seedling"></i> 作物生长模型预测</h2>
+                    <span style="padding:5px 15px; background:#e0f7fa; color:#00b894; border-radius:20px; font-size:12px;">作物：冬小麦 | 周期：拔节期</span>
+                </div>
+               
+                <div style="margin: 30px 0;">
+                    <h4 style="margin-bottom:20px;">小麦生长周期预测</h4>
+                    <div class="growth-timeline">
+                        <div class="timeline-item active">
+                            <div class="timeline-dot"><i class="fas fa-check"></i></div>
+                            <span>播种期</span>
+                            <small style="display:block; color:#999;">10月15日</small>
+                        </div>
+                        <div class="timeline-item active">
+                            <div class="timeline-dot"><i class="fas fa-check"></i></div>
+                            <span>越冬期</span>
+                            <small style="display:block; color:#999;">12月-1月</small>
+                        </div>
+                        <div class="timeline-item active">
+                            <div class="timeline-dot">3</div>
+                            <span style="font-weight:bold; color:var(--primary-green)">拔节期 (当前)</span>
+                            <small style="display:block; color:#999;">需水量大</small>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot">4</div>
+                            <span>灌浆期</span>
+                            <small style="display:block; color:#999;">预计 5月10日</small>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot">5</div>
+                            <span>成熟收获</span>
+                            <small style="display:block; color:#999;">预计 6月5日</small>
+                        </div>
+                    </div>
+                </div>
+                <div id="growthChart" style="width: 100%; height: 350px; margin-top: 20px;"></div>
+                <div class="irrigation-grid" style="margin-top:30px;">
+                    <div>
+                        <h4><i class="fas fa-info-circle"></i> 模型分析</h4>
+                        <p style="color:#666; font-size:14px; line-height:1.6; margin-top:10px;">
+                            根据当前气象数据（温度累计积温）与土壤肥力分析，您的小麦生长速度略<strong>高于标准模型 5%</strong>。
+                            <br>预计将在 <strong>5月20日</strong> 进入灌浆高峰期，请提前准备追肥。
+                        </p>
+                        <div style="margin-top:15px;">
+                            <button class="control-btn btn-start" style="margin-right:10px;" onclick="alert('报告生成中...')">
+                                <i class="fas fa-download"></i> 导出报告
+                            </button>
+                        </div>
+                    </div>
+                   
+                    <div class="scan-box" onclick="openCropUploadModal()">
+                        <div id="scanContent" style="text-align:center;">
+                            <i class="fas fa-camera" style="font-size:48px; color:#b2bec3; margin-bottom:15px;"></i>
+                            <div style="color:#636e72; font-weight: 600;">点击上传作物照片</div>
+                            <div style="font-size:12px; color:#b2bec3; margin-top:5px;">AI 自动识别病虫害</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 设备管理 -->
+        <div id="section-devices" class="section-container">
+            <div class="glass-card">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                    <h2><i class="fas fa-server"></i> 设备状态监控</h2>
+                    <button class="control-btn btn-start" onclick="openQRScanModal()">
+                        <i class="fas fa-qrcode"></i> 扫码添加设备
+                    </button>
+                </div>
+                <div class="device-list" id="deviceList">
+                    <div class="device-card">
+                        <div class="status-badge status-online">● 在线</div>
+                        <h3 style="color:#333; margin-bottom:10px;">监测终端 #01</h3>
+                        <p style="color:#666; font-size:12px;"><i class="fas fa-map-marker-alt"></i> 位置：东头麦地</p>
+                        <hr style="margin:15px 0; border:none; border-top:1px solid #eee;">
+                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                            <div>
+                                <small style="color:#999">电池 (太阳能)</small>
+                                <div style="color:var(--primary-green); font-weight:bold;">
+                                    <i class="fas fa-battery-three-quarters"></i> 85%
+                                </div>
+                            </div>
+                            <div>
+                                <small style="color:#999">信号 (IoT卡)</small>
+                                <div style="color:#333;">
+                                    4G
+                                    <div class="signal-bars">
+                                        <div class="bar active" style="height:4px"></div>
+                                        <div class="bar active" style="height:6px"></div>
+                                        <div class="bar active" style="height:8px"></div>
+                                        <div class="bar active" style="height:12px"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="margin-top:15px; display: flex; gap: 10px;">
+                            <button style="flex: 1; border:1px solid #ddd; background:white; padding:8px; border-radius:8px; font-size:12px; cursor:pointer; transition: 0.3s;" onclick="openDeviceLog('01')" onmouseover="this.style.background='#f8f9fa'" onmouseout="this.style.background='white'">
+                                <i class="fas fa-chart-line"></i> 详细日志
+                            </button>
+                            <button style="flex: 1; border:1px solid var(--primary-green); background:white; color:var(--primary-green); padding:8px; border-radius:8px; font-size:12px; cursor:pointer; transition: 0.3s;" onclick="openDeviceSettings('01')" onmouseover="this.style.background='#e8f8f5'" onmouseout="this.style.background='white'">
+                                <i class="fas fa-cog"></i> 设置
+                            </button>
+                        </div>
+                    </div>
+                    <div class="device-card" style="opacity:0.8;">
+                        <div class="status-badge status-offline">● 离线</div>
+                        <h3 style="color:#333; margin-bottom:10px;">监测终端 #02</h3>
+                        <p style="color:#666; font-size:12px;"><i class="fas fa-map-marker-alt"></i> 位置：西瓜大棚</p>
+                        <hr style="margin:15px 0; border:none; border-top:1px solid #eee;">
+                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                            <div>
+                                <small style="color:#999">电池</small>
+                                <div style="color:#e74c3c; font-weight:bold;">
+                                    <i class="fas fa-battery-empty"></i> 5%
+                                </div>
+                            </div>
+                            <div>
+                                <small style="color:#999">最后活跃</small>
+                                <div style="color:#666; font-size: 13px;">2小时前</div>
+                            </div>
+                        </div>
+                        <div style="margin-top:15px; display: flex; gap: 10px;">
+                            <button style="flex: 1; color:#e74c3c; border:1px solid #e74c3c; background:white; padding:8px; border-radius:8px; font-size:12px; cursor:pointer; transition: 0.3s;" onclick="openDeviceFault('02')" onmouseover="this.style.background='#fdedec'" onmouseout="this.style.background='white'">
+                                <i class="fas fa-exclamation-triangle"></i> 查看故障
+                            </button>
+                            <button style="flex: 1; border:1px solid #ddd; background:white; padding:8px; border-radius:8px; font-size:12px; cursor:pointer; transition: 0.3s;" onclick="confirmRestart('02')" onmouseover="this.style.background='#f8f9fa'" onmouseout="this.style.background='white'">
+                                <i class="fas fa-sync"></i> 重启
+                            </button>
+                        </div>
+                    </div>
+                    <div class="device-card">
+                        <div class="status-badge" style="background:#fef5e7; color:#f39c12;">● 中等稳定</div>
+                        <h3 style="color:#333; margin-bottom:10px;">监测终端 #03</h3>
+                        <p style="color:#666; font-size:12px;"><i class="fas fa-map-marker-alt"></i> 位置：果园区域</p>
+                        <hr style="margin:15px 0; border:none; border-top:1px solid #eee;">
+                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                            <div>
+                                <small style="color:#999">电池</small>
+                                <div style="color:#f39c12; font-weight:bold;">
+                                    <i class="fas fa-battery-half"></i> 60%
+                                </div>
+                            </div>
+                            <div>
+                                <small style="color:#999">信号</small>
+                                <div style="color:#333;">
+                                    4G
+                                    <div class="signal-bars">
+                                        <div class="bar active" style="height:4px"></div>
+                                        <div class="bar active" style="height:6px"></div>
+                                        <div class="bar active" style="height:8px"></div>
+                                        <div class="bar" style="height:12px"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="margin-top:15px; display: flex; gap: 10px;">
+                            <button style="flex: 1; border:1px solid #f39c12; color:#f39c12; background:white; padding:8px; border-radius:8px; font-size:12px; cursor:pointer; transition: 0.3s;" onclick="openDeviceDetails('03')" onmouseover="this.style.background='#fef5e7'" onmouseout="this.style.background='white'">
+                                <i class="fas fa-info-circle"></i> 查看详情
+                            </button>
+                        </div>
+                    </div>
+                    <div class="device-card">
+                        <div class="status-badge status-online">● 在线</div>
+                        <h3 style="color:#333; margin-bottom:10px;">灌溉阀门 #A1</h3>
+                        <p style="color:#666; font-size:12px;"><i class="fas fa-map-marker-alt"></i> 位置：地块A-小麦</p>
+                        <hr style="margin:15px 0; border:none; border-top:1px solid #eee;">
+                        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                            <div>
+                                <small style="color:#999">状态</small>
+                                <div style="color:#999; font-weight:bold;">
+                                    <i class="fas fa-power-off"></i> 关闭
+                                </div>
+                            </div>
+                            <div>
+                                <small style="color:#999">累计用水</small>
+                                <div style="color:#333; font-weight: bold; font-size: 13px;">1250L</div>
+                            </div>
+                        </div>
+                        <div style="margin-top:15px; display: flex; gap: 10px;">
+                            <button style="flex: 1; background:var(--primary-green); color:white; border:none; padding:8px; border-radius:8px; font-size:12px; cursor:pointer; transition: 0.3s;" onclick="startIrrigation('A1')" onmouseover="this.style.background=var(--dark-green)" onmouseout="this.style.background='var(--primary-green)'">
+                                <i class="fas fa-play"></i> 启动灌溉
+                            </button>
+                            <button style="flex: 1; border:1px solid #ddd; background:white; padding:8px; border-radius:8px; font-size:12px; cursor:pointer; transition: 0.3s;" onclick="openDeviceLog('A1')" onmouseover="this.style.background='#f8f9fa'" onmouseout="this.style.background='white'">
+                                <i class="fas fa-chart-line"></i> 详细日志
+                            </button>
+                        </div>
+                    </div>
+                    <!-- 其他设备卡片类似，添加按钮指向对应模态 -->
+                    <!-- ... (省略其他设备卡片以节省空间) ... -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 消息通知模态框 -->
+    <div id="messageModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-bell"></i> 消息中心</h2>
+                <button class="modal-close" onclick="closeModal('messageModal')">&times;</button>
+            </div>
+            <div id="messageList">
+                <!-- 消息项 -->
+            </div>
+            <div style="margin-top: 20px; text-align: center;">
+                <button style="padding: 10px 30px; background: var(--primary-green); color: white; border: none; border-radius: 20px; cursor: pointer; transition: 0.3s;" onclick="markAllAsRead()" onmouseover="this.style.background='var(--dark-green)'" onmouseout="this.style.background='var(--primary-green)'">
+                    <i class="fas fa-check"></i> 全部标记为已读
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- 专家咨询模态框 -->
+    <div id="expertModal" class="modal">
+        <!-- ... (原内容) ... -->
+    </div>
+    <!-- 二维码扫描模态框 -->
+    <div id="qrModal" class="modal">
+        <!-- ... (原内容) ... -->
+    </div>
+    <!-- 作物照片上传模态框 -->
+    <div id="cropUploadModal" class="modal">
+        <!-- ... (原内容) ... -->
+    </div>
+    <!-- 新增模态框: 设备日志 -->
+    <div id="deviceLogModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-chart-line"></i> 设备日志 - <span id="logDeviceId"></span></h2>
+                <button class="modal-close" onclick="closeModal('deviceLogModal')">&times;</button>
+            </div>
+            <div class="log-list">
+                <div class="log-item success"><i class="fas fa-check"></i> 12:00 - 数据上传成功</div>
+                <div class="log-item"><i class="fas fa-info-circle"></i> 11:45 - 信号强度: 良好</div>
+                <div class="log-item error"><i class="fas fa-exclamation-triangle"></i> 11:30 - 电池低警报</div>
+                <div class="log-item"><i class="fas fa-sync"></i> 11:00 - 系统重启</div>
+                <!-- 更多日志项 -->
+            </div>
+        </div>
+    </div>
+    <!-- 新增模态框: 设备设置 -->
+    <div id="deviceSettingsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-cog"></i> 设备设置 - <span id="settingsDeviceId"></span></h2>
+                <button class="modal-close" onclick="closeModal('deviceSettingsModal')">&times;</button>
+            </div>
+            <form class="setting-form">
+                <label>报告间隔 (分钟):</label>
+                <input class="setting-input" type="number" value="30">
+                <label>警报阈值 (%):</label>
+                <input class="setting-input" type="number" value="20">
+                <label>自动更新:</label>
+                <select class="setting-input">
+                    <option>启用</option>
+                    <option>禁用</option>
+                </select>
+                <button type="button" class="control-btn btn-start" style="margin-top:10px;" onclick="alert('设置已保存')">保存设置</button>
+            </form>
+        </div>
+    </div>
+    <!-- 新增模态框: 设备故障详情 -->
+    <div id="deviceFaultModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-exclamation-triangle"></i> 故障详情 - <span id="faultDeviceId"></span></h2>
+                <button class="modal-close" onclick="closeModal('deviceFaultModal')">&times;</button>
+            </div>
+            <p>故障类型: 电池低</p>
+            <p>发生时间: 2小时前</p>
+            <p>建议: 更换电池或检查太阳能板</p>
+            <button class="control-btn btn-start" style="width:100%; margin-top:20px;" onclick="alert('维修请求已发送')">请求维修</button>
+        </div>
+    </div>
+    <!-- 新增模态框: 重启确认 -->
+    <div id="restartConfirmModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-sync"></i> 确认重启</h2>
+                <button class="modal-close" onclick="closeModal('restartConfirmModal')">&times;</button>
+            </div>
+            <p class="confirm-text">确定要重启设备 <span id="restartDeviceId"></span> 吗？</p>
+            <div class="confirm-buttons">
+                <button class="control-btn btn-start" onclick="restartDevice()">确认</button>
+                <button style="padding: 10px 20px; background: #f8f9fa; color: #666; border: 1px solid #ddd; border-radius: 20px; cursor: pointer;" onclick="closeModal('restartConfirmModal')">取消</button>
+            </div>
+        </div>
+    </div>
+    <!-- 新增模态框: 设备详情 -->
+    <div id="deviceDetailsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-info-circle"></i> 设备详情 - <span id="detailsDeviceId"></span></h2>
+                <button class="modal-close" onclick="closeModal('deviceDetailsModal')">&times;</button>
+            </div>
+            <p>型号: XYZ-123</p>
+            <p>安装日期: 2023-01-01</p>
+            <p>最后维护: 2023-06-01</p>
+            <p>软件版本: v2.5</p>
+            <!-- 更多详情 -->
+        </div>
+    </div>
+    <!-- 新增模态框: 灌溉调度计划 -->
+    <div id="irrigationScheduleModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-calendar-alt"></i> 灌溉调度计划 - 地块 <span id="schedulePlotId"></span></h2>
+                <button class="modal-close" onclick="closeModal('irrigationScheduleModal')">&times;</button>
+            </div>
+            <form class="setting-form">
+                <label>开始时间:</label>
+                <input class="setting-input" type="datetime-local">
+                <label>持续时间 (分钟):</label>
+                <input class="setting-input" type="number" value="30">
+                <label>重复:</label>
+                <select class="setting-input">
+                    <option>每日</option>
+                    <option>每周</option>
+                    <option>自定义</option>
+                </select>
+                <button type="button" class="control-btn btn-start" style="margin-top:10px;" onclick="alert('计划已保存')">保存计划</button>
+            </form>
+        </div>
+    </div>
+    <!-- 新增模态框: 灌溉历史 -->
+    <div id="irrigationHistoryModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-history"></i> 灌溉历史 - 地块 <span id="historyPlotId"></span></h2>
+                <button class="modal-close" onclick="closeModal('irrigationHistoryModal')">&times;</button>
+            </div>
+            <div class="log-list">
+                <div class="log-item"><i class="fas fa-clock"></i> 2023-10-01 08:00 - 30分钟, 150L</div>
+                <div class="log-item"><i class="fas fa-clock"></i> 2023-10-02 18:00 - 20分钟, 100L</div>
+                <div class="log-item"><i class="fas fa-clock"></i> 2023-10-03 06:00 - 25分钟, 125L</div>
+                <!-- 更多历史记录 -->
+            </div>
+        </div>
+    </div>
+    <!-- 新增模态框: 全局灌溉统计 -->
+    <div id="globalIrrigationHistoryModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-chart-bar"></i> 全局灌溉统计</h2>
+                <button class="modal-close" onclick="closeModal('globalIrrigationHistoryModal')">&times;</button>
+            </div>
+            <p>总用水量: 5000L</p>
+            <p>平均每日用水: 200L</p>
+            <p>最活跃地块: A (40%)</p>
+            <div id="irrigationStatsChart" style="width: 100%; height: 300px;"></div>
+        </div>
+    </div>
+    <script>
+        let gaugeChartIns = null;
+        let lineChartIns = null;
+        let growthChartIns = null;
+        let irrigationStatsChartIns = null;
+        let userLocation = null;
+        let lastWeatherUpdate = null;
+        let unreadCount = 3;
+
+        // ... (原脚本内容) ...
+
+        // 新增函数: 打开设备日志
+        function openDeviceLog(deviceId) {
+            document.getElementById('logDeviceId').textContent = deviceId;
+            document.getElementById('deviceLogModal').classList.add('active');
+        }
+        // 打开设备设置
+        function openDeviceSettings(deviceId) {
+            document.getElementById('settingsDeviceId').textContent = deviceId;
+            document.getElementById('deviceSettingsModal').classList.add('active');
+        }
+        // 打开设备故障详情
+        function openDeviceFault(deviceId) {
+            document.getElementById('faultDeviceId').textContent = deviceId;
+            document.getElementById('deviceFaultModal').classList.add('active');
+        }
+        // 确认重启
+        function confirmRestart(deviceId) {
+            document.getElementById('restartDeviceId').textContent = deviceId;
+            document.getElementById('restartConfirmModal').classList.add('active');
+        }
+        function restartDevice() {
+            alert('设备 ' + document.getElementById('restartDeviceId').textContent + ' 已重启');
+            closeModal('restartConfirmModal');
+        }
+        // 打开设备详情
+        function openDeviceDetails(deviceId) {
+            document.getElementById('detailsDeviceId').textContent = deviceId;
+            document.getElementById('deviceDetailsModal').classList.add('active');
+        }
+        // 启动灌溉
+        function startIrrigation(valveId) {
+            alert('灌溉阀门 ' + valveId + ' 已启动');
+        }
+        // 打开灌溉调度
+        function openIrrigationSchedule(plotId) {
+            document.getElementById('schedulePlotId').textContent = plotId;
+            document.getElementById('irrigationScheduleModal').classList.add('active');
+        }
+        // 打开灌溉历史
+        function openIrrigationHistory(plotId) {
+            document.getElementById('historyPlotId').textContent = plotId;
+            document.getElementById('irrigationHistoryModal').classList.add('active');
+        }
+        // 打开全局灌溉统计
+        function openGlobalIrrigationHistory() {
+            document.getElementById('globalIrrigationHistoryModal').classList.add('active');
+            initIrrigationStatsChart();
+        }
+        // 初始化全局灌溉统计图表
+        function initIrrigationStatsChart() {
+            if (!irrigationStatsChartIns) {
+                irrigationStatsChartIns = echarts.init(document.getElementById('irrigationStatsChart'));
+                const option = {
+                    tooltip: { trigger: 'item' },
+                    series: [{
+                        name: '用水分布',
+                        type: 'pie',
+                        radius: '70%',
+                        data: [
+                            { value: 40, name: '地块 A' },
+                            { value: 30, name: '地块 B' },
+                            { value: 20, name: '地块 C' },
+                            { value: 10, name: '地块 D' }
+                        ],
+                        emphasis: {
+                            itemStyle: {
+                                shadowBlur: 10,
+                                shadowOffsetX: 0,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
+                        }
+                    }]
+                };
+                irrigationStatsChartIns.setOption(option);
+            }
+        }
+        // 在resize事件中添加新图表
+        window.addEventListener('resize', () => {
+            if(gaugeChartIns) gaugeChartIns.resize();
+            if(lineChartIns) lineChartIns.resize();
+            if(growthChartIns) growthChartIns.resize();
+            if(irrigationStatsChartIns) irrigationStatsChartIns.resize();
+        });
+        // 初始化
+        window.onload = function() {
+            getLocationAndWeather();
+            initCharts();
+            updateMessageCount();
+        }
+    </script>
+</body>
+</html>
