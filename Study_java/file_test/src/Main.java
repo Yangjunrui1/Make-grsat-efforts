@@ -3,8 +3,7 @@ public class Main {
         System.out.println("Hello, World!");
     }
         println("Hello, World!");
-        System.out.println("Hello, World!");
-
+        System.out.println("Hello, World!")
             \\ This is a simple Java program that prints "Hello, World!" to the console.
     }
 }
