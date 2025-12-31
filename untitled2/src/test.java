@@ -5,6 +5,9 @@ public class test {
         System.out.println("hello world");
         System.out.println("hello world");
         System.out.println("hello world");
-        
+        System.out.println("hello world");
+        for (int i = 0; i < 19; i++) {
+            System.out.println(i);
+        }
     }
 }
