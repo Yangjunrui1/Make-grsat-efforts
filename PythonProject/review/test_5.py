@@ -333,54 +333,54 @@ from xml.dom.minidom import Element
 #     main()
 
 # with open("test.txt","w",encoding="UTF-8-sig")
-# class Element():
-#     def __init__(self,name):
-#         self.name =name
-#     def get_slary(self):
-#         pass
-# class Manager(Element):
-#     def __init__(self,name,slary = 15000):
-#         super().__init__(name)
-#         self.slary = slary
-#     def get_slary(self):
-#         return self.slary
-#     def __str__(self):
-#         return f"{self.name}的薪资为{self.get_slary()}"
-# class programer(Element):
-#     def __init__(self,name,slary = 12000,out_time = 0):
-#         super().__init__(name)
-#         self.slary = slary
-#         self.out_time = out_time
-#     def get_slary(self):
-#         if self.out_time >20:
-#             return self.slary + 20*100
-#         else:
-#             return  self.slary +self.out_time*100
-#     def __str__(self):
-#         return f"{self.name}的薪资为{self.get_slary()}"
-# class soft_test(Element):
-#     def __init__(self,name,slary = 8000,bug_num = 0):
-#         super().__init__(name)
-#         self.slary = slary
-#         self.bug_num = bug_num
-#     def get_slary(self):
-#             return  self.slary +self.bug_num*5
-#     def __str__(self):
-#         return f"{self.name}的薪资为{self.get_slary()}"
-# def main():
-#     Element_list = [Manager("宋江"),Manager("吴用"),Manager("花容",13000),
-#                     programer("李逵",12000,32),programer("林冲",12000,12),programer("李达",12000,18),
-#                     soft_test("柴进",9000,400), soft_test("高俅",8000,300), soft_test("或三娘",9000,400)]
-#     for emp in Element_list:
-#         if isinstance(emp,Manager):
-#             print("经理",emp)
-#         elif isinstance(emp,programer):
-#             print("程序员",emp)
-#         elif isinstance(emp,soft_test):
-#             print("测试员",emp)
-#
-# if __name__ == "__main__":
-#     main()
+class Element():
+    def __init__(self,name):
+        self.name =name
+    def get_slary(self):
+        pass
+class Manager(Element):
+    def __init__(self,name,slary = 15000):
+        super().__init__(name)
+        self.slary = slary
+    def get_slary(self):
+        return self.slary
+    def __str__(self):
+        return f"{self.name}的薪资为{self.get_slary()}"
+class programer(Element):
+    def __init__(self,name,slary = 12000,out_time = 0):
+        super().__init__(name)
+        self.slary = slary
+        self.out_time = out_time
+    def get_slary(self):
+        if self.out_time >20:
+            return self.slary + 20*100
+        else:
+            return  self.slary +self.out_time*100
+    def __str__(self):
+        return f"{self.name}的薪资为{self.get_slary()}"
+class soft_test(Element):
+    def __init__(self,name,slary = 8000,bug_num = 0):
+        super().__init__(name)
+        self.slary = slary
+        self.bug_num = bug_num
+    def get_slary(self):
+            return  self.slary +self.bug_num*5
+    def __str__(self):
+        return f"{self.name}的薪资为{self.get_slary()}"
+def main():
+    Element_list = [Manager("宋江"),Manager("吴用"),Manager("花容",13000),
+                    programer("李逵",12000,32),programer("林冲",12000,12),programer("李达",12000,18),
+                    soft_test("柴进",9000,400), soft_test("高俅",8000,300), soft_test("或三娘",9000,400)]
+    for emp in Element_list:
+        if isinstance(emp,Manager):
+            print("经理",emp)
+        elif isinstance(emp,programer):
+            print("程序员",emp)
+        elif isinstance(emp,soft_test):
+            print("测试员",emp)
+
+if __name__ == "__main__":
+    main()
 #
 # def dib(n):
 #     if n==1 or n==2:
@@ -391,14 +391,14 @@ from xml.dom.minidom import Element
 # for i in range(1,num+1):
 #     print(dib(i))
 
-score = []
-for i in range(1,11):
-    score.append(int(input(f"请第{i}评委打分：")))
-score.sort(reverse=True)
-score.pop()
-score.pop(0)
-print(score)
-print(sum(score)/len(score))
+# score = []
+# for i in range(1,11):
+#     score.append(int(input(f"请第{i}评委打分：")))
+# score.sort(reverse=True)
+# score.pop()
+# score.pop(0)
+# print(score)
+# print(sum(score)/len(score))
 
 
 
