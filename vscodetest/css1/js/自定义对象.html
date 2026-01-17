@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自定义对象</title>
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>自定义对象</h1>
+    </div>
+    <script src="自定义对象.js">
+    let user ={
+        name :'张三',
+        age : 18,
+        gender :'男',
+        sing :function(){
+            alert(this.name + '正在唱歌...')
+        }
+    }
+    alert(user.name);//访问对象的属性
+    user.sing();//调用对象的方法
+    let personjosn = '{"name":"李四","age":20,"gender":"女"}';
+    alert(personjosn);
+    </script>
+</body>
+</html>

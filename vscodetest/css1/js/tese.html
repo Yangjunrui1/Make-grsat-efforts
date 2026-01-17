@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>页面标题</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+    </style
+</head>
+<body>
+    //1，函数定义及 调用-具名函数
+    function add(x, y) {
+        return x + y;
+    }
+    
+    let result = add(5, 10); // 调用函数
+    //2.，函数定义及 调用-匿名函数
+    let add1 = function(x, y) {
+        return x + y;
+    };
+    let result1 = add1(53, 10);
+    //3.，函数定义及 调用-箭头函数
+    let add2 = (x, y) => {
+        return x + y;
+    };
+    let result2 = add2(5, 10);
+
+</body>
+</html>
