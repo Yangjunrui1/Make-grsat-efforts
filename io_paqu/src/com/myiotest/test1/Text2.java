@@ -78,12 +78,12 @@ public class Text2 {
         Random r = new Random();
         for (String s : boynames) {
             int age = r.nextInt(10) + 18;
-            list.add(s  + "-"+ "男" + "-" + age);
+            list.add(s  + "-"+ "男" + "-" + age+"-1");
 
         }
         for (String s : girlnames) {
             int age = r.nextInt(10) + 16;
-            list.add(s  + "-"+ "女" + "-" + age);
+            list.add(s  + "-"+ "女" + "-" + age+"-1");
 
         }
 
