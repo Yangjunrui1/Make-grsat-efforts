@@ -26,25 +26,31 @@ public class baopo {
             }
 
         }
-        double ans = 0;
-        int dd = 0;
-        for (int i = 0; i < count-1; i++) {
-            double temp = 9999;
-            for (int i1 = 0; i1 < count; i1++) {
-                if(dis[dd][i1]==0){
-                    temp = 0;
-                    dd = i1;
-                    break;
-                }
-                if(dis[dd][i1]<temp){
-                    temp = dis[dd][i1];
-                    dd = i1;
-                }
-
-            }
-            ans+=temp;
+        //prim算法
+        boolean vis[] = new boolean[count];// 是否加入集合
+        double minDis[] = new double[count];//最小距离
+        for(int i = 0; i < count; i++) {
+            minDis[i] = dis[0][i];
         }
-        System.out.println(ans);
-
+        vis[0] = true;
+        double ans = 0;
+        for (int i = 1; i < count; i++) {
+            int min = -1;//最小距离点
+            double minValue = 1e18;//最小距离
+            for (int i1 = 0; i1 < count; i1++) {
+                if(vis[i1]==false && minValue > minDis[i1]){
+                    min = i1;
+                    minValue = minDis[i1];
+                }
+            }
+            ans += minValue;
+            vis[min] = true;
+            for (int i1 = 0; i1 < count; i1++) {
+                if(vis[i1] == false && minDis[i1] > dis[min][i1]) {
+                    minDis[i1] = Math.min(minDis[i1], dis[min][i1]);
+                }
+            }
+        }
+        System.out.println( ans);
     }
 }
